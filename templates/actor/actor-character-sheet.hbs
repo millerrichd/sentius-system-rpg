@@ -45,7 +45,7 @@
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     {{!-- Default tab is specified in actor-sheet.mjs --}}
-    <a class="item" data-tab="features">Features</a>
+    <a class="item" data-tab="abilities">Abilities</a>
     <a class="item" data-tab="description">Description</a>
     <a class="item" data-tab="items">Items</a>
     <a class="item" data-tab="spells">Spells</a>
@@ -55,29 +55,49 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
 
-    {{!-- Owned Features Tab --}}
-    <div class="tab features" data-group="primary" data-tab="features">
-      <section class="grid grid-3col">
-        <aside class="sidebar">
-
+    {{!-- Owned Abilties Tab --}}
+    <div class="tab abilities" data-group="primary" data-tab="abilities">
+      <section class="grid grid-2ol">
           {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
           use both the "grid" and "grid-Ncol" class where "N" can be any number
           from 1 to 12 and will create that number of columns.  --}}
-          <div class="abilities flexcol">
-            {{#each system.abilities as |ability key|}}
-            <div class="ability flexrow flex-group-center">
-              <label for="system.abilities.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll="d20+@abilities.{{key}}.mod" data-label="{{localize (lookup @root.config.abilities key)}}">{{localize (lookup @root.config.abilities key)}}</label>
-              <input type="text" name="system.abilities.{{key}}.value" value="{{ability.value}}" data-dtype="Number"/>
-              <span class="ability-mod rollable" data-roll="d20+@abilities.{{key}}.mod" data-label="{{localize (lookup @root.config.abilities key)}}">{{numberFormat ability.mod decimals=0 sign=true}}</span>
-            </div>
-            {{/each}}
+        <div class="abilities grid-start-1">
+          <label class="resource-label">Abilities</label>
+          {{#each system.abilities as |ability key|}}
+          <div class="ability flexrow flex-group-center">
+            <label for="system.abilities.{{key}}.die" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.abilities key)}}">{{localize (lookup @root.config.abilities key)}}</label>
+            <button class="increase-ability" data-ability="{{key}}">+</button>
+            <label for="system.abilities.{{key}}.die" class="resource-label flexsmall align-center" data-label="Die">{{ability.die}}</label>
+            <label for="system.abilities.{{key}}.bonus" class="resource-label flexsmall align-center" data-label="Bonus">{{ability.bonus}}</label>
+            <button class="decrease-ability" data-ability="{{key}}">-</button>
           </div>
-        </aside>
+          {{/each}}
+        </div>
+        <div class="derived-abilities grid-start-2">
+          <label class="resource-label">Derived Abilities</label>
+          {{#each system.derivedAbilitiesValue as |ability key|}}
+          <div class="derived-abilities flexrow flex-group-center">
+            <label for="system.derivedAbilitiesValue.{{key}}.value" class="resource-label flexlarge align-left derived-attributes-padding" data-label="{{localize (lookup @root.config.derivedAbilitiesValue key)}}">{{localize (lookup @root.config.derivedAbilitiesValue key)}}</label>
+            <label for="system.derivedAbilitiesValue.{{key}}.value" class="resource-label flexsmall align-left derived-attributes-padding" data-label="Value">{{ability.value}}</label>
+          </div>
+          {{/each}}
+          <label class="resource-label">Derived Abilities: Pools</label>
+          {{#each system.derivedAbilitiesPool as |ability key|}}
+          <div class="derived-abilities flexrow flex-group-center">
+            <label for="system.derivedAbilitiesPool.{{key}}.value" class="resource-label flexlarge align-left derived-attributes-padding" data-label="{{localize (lookup @root.config.derivedAbilitiesPool key)}}">{{localize (lookup @root.config.derivedAbilitiesPool key)}}</label>
+            <label for="system.derivedAbilitiesPool.{{key}}.value" class="resource-label flexsmall align-left derived-attributes-padding" data-label="Value">{{ability.value}}</label>
+          </div>
+          {{/each}}
+        </div>
 
-        {{!-- For the main features list, span the right two columns --}}
+        {{!-- For the main hindrance/traits list, span the right two columns --}}
+        {{!-- This is a Handlebars partial. They're stored in the `/parts` folder next to this sheet, and defined in module/helpers/templates.mjs --}}
         <section class="main grid-span-2">
-          {{!-- This is a Handlebars partial. They're stored in the `/parts` folder next to this sheet, and defined in module/helpers/templates.mjs --}}
-          {{> "systems/sentius-rpg/templates/actor/parts/actor-features.hbs"}}
+          {{> "systems/sentius-rpg/templates/actor/parts/actor-hindrances.hbs"}}
+        </section>
+
+        <section class="main grid-span-2">
+          {{> "systems/sentius-rpg/templates/actor/parts/actor-traits.hbs"}}
         </section>
 
       </section>

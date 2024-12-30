@@ -27,7 +27,100 @@ export class SentiusRPGActor extends Actor {
    */
   prepareDerivedData() {
     const actorData = this;
+    const systemData = actorData.system;
     const flags = actorData.flags.sentiusrpg || {};
+
+    /* derived abilities - values */
+    systemData.derivedAbilitiesValue = {
+      defense: { value: Math.floor((systemData.abilities.agi.bonus + systemData.abilities.int.bonus )/ 2) },
+      fatigue: { value: Math.floor((systemData.abilities.end.bonus + systemData.abilities.wil.bonus )/ 2) },
+      initiative: { value: Math.floor((systemData.abilities.int.bonus + systemData.abilities.qui.bonus )/ 2) },
+      pace: { value: Math.floor((systemData.abilities.agi.bonus + systemData.abilities.qui.bonus )/ 2) + 2 },
+      stability: { value: Math.floor((systemData.abilities.end.bonus + systemData.abilities.wil.bonus)/ 2) }
+    }
+    console.log("prepareDerivedData", systemData.derivedAbilitiesValue);
+
+    /* derived abilties - pools */
+    const paceDieValue = Math.floor((systemData.abilities.agi.bonus + systemData.abilities.qui.bonus )/ 2);
+    let paceDie = "d4";
+    if (paceDieValue < 3) {
+      paceDie = "d4";
+    } else if( paceDieValue === 3 || paceDieValue === 4) {
+      paceDie = "d6";
+    } else if( paceDieValue === 5 || paceDieValue === 6) {
+      paceDie = "d8";
+    } else if( paceDieValue === 7 || paceDieValue === 8) {
+      paceDie = "d10";
+    } else {
+      paceDie = "d12";
+    }
+
+    const health = Math.floor((systemData.abilities.end.bonus + systemData.abilities.wil.bonus )/ 2);
+    let healthPool = '';
+    if(health < 3) { 
+      healthPool = 'd4';
+    } else if(health === 3 || health === 4) {
+      healthPool = 'd6';
+    } else if(health === 5 || health === 6) {
+      healthPool = 'd8';
+    } else if(health === 7 || health === 8) {
+      healthPool = 'd10';
+    } else {
+      healthPool = 'd12';
+    }
+
+    const faith = Math.floor((systemData.abilities.wil.bonus + systemData.abilities.int.bonus )/ 2);
+    let faithPool = '';
+    if(faith < 3) { 
+      faithPool = 'd4';
+    } else if(faith === 3 || faith === 4) {
+      faithPool = 'd6';
+    } else if(faith === 5 || faith === 6) {
+      faithPool = 'd8';
+    } else if(faith === 7 || faith === 8) {
+      faithPool = 'd10';
+    } else {
+      faithPool = 'd12';
+    }
+
+    const mana = Math.floor((systemData.abilities.wil.bonus + systemData.abilities.rea.bonus )/ 2);
+    let manaPool = '';
+    if(mana < 3) { 
+      manaPool = 'd4';
+    } else if(mana === 3 || mana === 4) {
+      manaPool = 'd6';
+    } else if(mana === 5 || mana === 6) {
+      manaPool = 'd8';
+    } else if(mana === 7 || mana === 8) {
+      manaPool = 'd10';
+    } else {
+      manaPool = 'd12';
+    }
+
+    const psychic = Math.floor((systemData.abilities.wil.bonus + systemData.abilities.pre.bonus )/ 2);
+    let psychicPool = '';
+    if(psychic < 3) { 
+      psychicPool = 'd4';
+    } else if(psychic === 3 || psychic === 4) {
+      psychicPool = 'd6';
+    } else if(psychic === 5 || psychic === 6) {
+      psychicPool = 'd8';
+    } else if(psychic === 7 || psychic === 8) {
+      psychicPool = 'd10';
+    } else {
+      psychicPool = 'd12';
+    }
+
+    /* derived abilities */
+    systemData.derivedAbilitiesPool = {
+      faith: { value: faithPool },
+      health: { value: healthPool },
+      mana: { value: manaPool },
+      psychic: { value: psychicPool },
+      paceDie: { value: paceDie }
+    }
+
+    console.log("prepareDerivedData", systemData.derivedAbilitiesPool);    
   }
 
   /**

@@ -1,12 +1,28 @@
 {
   "SENTIUS_RPG": {
     "Ability": {
+      "Agi": { "long": "Agility", "abbr": "agi" },
+      "End": { "long": "Endurance", "abbr": "end" },
+      "Qui": { "long": "Quickness", "abbr": "qui" },
       "Str": { "long": "Strength", "abbr": "str" },
-      "Con": { "long": "Constitution", "abbr": "con" },
-      "Dex": { "long": "Dexterity", "abbr": "dex" },
-      "Int": { "long": "Intelligence", "abbr": "int" },
-      "Wis": { "long": "Wisdom", "abbr": "wis" },
-      "Cha": { "long": "Charisma", "abbr": "cha" }
+      "Int": { "long": "Intuition", "abbr": "int" },
+      "Pre": { "long": "Presence", "abbr": "pre" },
+      "Rea": { "long": "Reasoning", "abbr": "rea" },
+      "Wil": { "long": "Will", "abbr": "wil" }
+    },
+    "DerivedAbilityValue": {
+      "Defense": { "long": "Defense", "abbr": "def" },
+      "Fatigue": { "long": "Fatigue Maximum", "abbr": "fat" },
+      "Initiative": { "long": "Initiative Speed", "abbr": "ini" },
+      "Pace": { "long": "Pace", "abbr": "pac" },
+      "Stability": { "long": "Stability", "abbr": "sta" }      
+    },
+    "DerivedAbilityPool": {
+      "Faith": { "long": "Faith", "abbr": "fth" },
+      "Health": { "long": "Health", "abbr": "hea" },
+      "Mana": { "long": "Mana", "abbr": "man" },
+      "Psychic": { "long": "Psychic", "abbr": "psy" },
+      "PaceDie": { "long": "Pace Die", "abbr": "pacd" }
     },
     "SheetLabels": {
       "Actor": "SentiusRPG Actor Sheet",
@@ -34,8 +50,9 @@
     },
     "Item": {
       "item": "Item",
-      "feature": "Feature",
-      "spell": "Spell"
+      "hindrance": "Hindrance",
+      "spell": "Spell",
+      "trait": "Trait"
     }
   }
 }

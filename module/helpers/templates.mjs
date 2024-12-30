@@ -6,9 +6,10 @@
 export const preloadHandlebarsTemplates = async function () {
   return loadTemplates([
     // Actor partials.
-    'systems/sentius-rpg/templates/actor/parts/actor-features.hbs',
+    'systems/sentius-rpg/templates/actor/parts/actor-hindrances.hbs',
     'systems/sentius-rpg/templates/actor/parts/actor-items.hbs',
     'systems/sentius-rpg/templates/actor/parts/actor-spells.hbs',
+    'systems/sentius-rpg/templates/actor/parts/actor-traits.hbs',
     'systems/sentius-rpg/templates/actor/parts/actor-effects.hbs',
     // Item partials
     'systems/sentius-rpg/templates/item/parts/item-effects.hbs',

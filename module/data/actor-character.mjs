@@ -16,10 +16,29 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
     // Iterate over ability names and create a new SchemaField for each.
     schema.abilities = new fields.SchemaField(Object.keys(CONFIG.SENTIUS_RPG.abilities).reduce((obj, ability) => {
       obj[ability] = new fields.SchemaField({
-        value: new fields.NumberField({ ...requiredInteger, initial: 10, min: 0 }),
+        die: new fields.StringField({ required: true, initial: "d10" }),
+        bonus: new fields.NumberField({ ...requiredInteger, initial: 2, min: 0, max: 12}),
       });
       return obj;
     }, {}));
+
+    // Iterate over derived ability names and create a new SchemaField for each.
+    schema.derivedAbilitiesValue = new fields.SchemaField(Object.keys(CONFIG.SENTIUS_RPG.derivedAbilitiesValue).reduce((obj, ability) => {
+      obj[ability] = new fields.SchemaField({
+        value: new fields.NumberField({ ...requiredInteger, initial: 2, min: 0, max: 12}),
+      });
+      return obj;
+    }, {}));
+
+    // Iterate over derived ability names and create a new SchemaField for each.
+    schema.derivedAbilitiesPool = new fields.SchemaField(Object.keys(CONFIG.SENTIUS_RPG.derivedAbilitiesPool).reduce((obj, ability) => {
+      obj[ability] = new fields.SchemaField({
+        value: new fields.StringField({ required: true, initial: "d4" }),
+      });
+      return obj;
+    }, {}));
+
+
 
     return schema;
   }

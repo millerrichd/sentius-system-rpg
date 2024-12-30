@@ -18,7 +18,7 @@ export class SentiusRPGActorSheet extends ActorSheet {
         {
           navSelector: '.sheet-tabs',
           contentSelector: '.sheet-body',
-          initial: 'features',
+          initial: 'abilities',
         },
       ],
     });
@@ -104,7 +104,8 @@ export class SentiusRPGActorSheet extends ActorSheet {
   _prepareItems(context) {
     // Initialize containers.
     const gear = [];
-    const features = [];
+    const hindrances = [];
+    const traits = [];
     const spells = {
       0: [],
       1: [],
@@ -125,9 +126,13 @@ export class SentiusRPGActorSheet extends ActorSheet {
       if (i.type === 'item') {
         gear.push(i);
       }
-      // Append to features.
-      else if (i.type === 'feature') {
-        features.push(i);
+      // Append to hindrances.
+      else if (i.type === 'hindrance') {
+        hindrances.push(i);
+      }
+      // Append to traits.
+      else if (i.type === 'trait') {
+        traits.push(i);
       }
       // Append to spells.
       else if (i.type === 'spell') {
@@ -139,7 +144,8 @@ export class SentiusRPGActorSheet extends ActorSheet {
 
     // Assign and return
     context.gear = gear;
-    context.features = features;
+    context.hindrances = hindrances;
+    context.traits = traits;
     context.spells = spells;
   }
 
@@ -193,6 +199,10 @@ export class SentiusRPGActorSheet extends ActorSheet {
         li.addEventListener('dragstart', handler, false);
       });
     }
+
+    // Ability score increase/decrease.
+    html.on('click', '.increase-ability', this._onIncreaseAbility.bind(this));
+    html.on('click', '.decrease-ability', this._onDecreaseAbility.bind(this));
   }
 
   /**
@@ -252,5 +262,75 @@ export class SentiusRPGActorSheet extends ActorSheet {
       });
       return roll;
     }
+  }
+
+  //this._onIncreaseAbility.bind(this)
+  async _onIncreaseAbility(event) {
+    event.preventDefault();
+    const element = event.currentTarget;
+    const ability = element.dataset.ability;
+    const actorData = this.actor.system;
+    const currentDie = actorData.abilities[ability].die;
+    const currentBonus = actorData.abilities[ability].bonus;
+    let newDie = '';
+    let newBonus = 0;
+    if(currentDie === 'd12') { 
+      newDie = 'd10';
+      newBonus = 2;
+    } else if(currentDie === 'd10') {
+      newDie = 'd8';
+      newBonus = 4;
+    } else if(currentDie === 'd8') {
+      newDie = 'd6';
+      newBonus = 6;
+    } else if(currentDie === 'd6') {
+      newDie = 'd4';
+      newBonus = 8;
+    } else if(currentDie === 'd4') {
+      newDie = 'd2';
+      newBonus = 10;
+    } else {
+      newDie = currentDie;
+      newBonus = currentBonus;
+    }
+    await this.actor.update({
+      [`system.abilities.${ability}.die`]: newDie,
+      [`system.abilities.${ability}.bonus`]: newBonus,
+    });
+  }
+
+  //this._onDecreaseAbility.bind(this)
+  async _onDecreaseAbility(event) {
+    event.preventDefault();
+    const element = event.currentTarget;
+    const ability = element.dataset.ability;
+    const actorData = this.actor.system;
+    const currentDie = actorData.abilities[ability].die;
+    const currentBonus = actorData.abilities[ability].bonus;
+    let newDie = '';
+    let newBonus = 0;
+    if(currentDie === 'd2') { 
+      newDie = 'd4';
+      newBonus = 8;
+    } else if(currentDie === 'd4') {
+      newDie = 'd6';
+      newBonus = 6;
+    } else if(currentDie === 'd6') {
+      newDie = 'd8';
+      newBonus = 4;
+    } else if(currentDie === 'd8') {
+      newDie = 'd10';
+      newBonus = 2;
+    } else if(currentDie === 'd10') {
+      newDie = 'd12';
+      newBonus = 0;
+    } else {
+      newDie = currentDie;
+      newBonus = currentBonus;
+    }
+    await this.actor.update({
+      [`system.abilities.${ability}.die`]: newDie,
+      [`system.abilities.${ability}.bonus`]: newBonus,
+    });
   }
 }
