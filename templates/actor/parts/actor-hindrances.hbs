@@ -1,16 +1,6 @@
 <ol class='items-list'>
   <li class='item flexrow items-header'>
     <div class='item-name'>{{localize 'Name'}}</div>
-    <div class='item-controls'>
-      <a
-        class='item-control item-create'
-        title='Create item'
-        data-type='hindrance'
-      >
-        <i class='fas fa-plus'></i>
-        {{localize 'DOCUMENT.New' type='hindrance'}}
-      </a>
-    </div>
   </li>
   {{#each hindrances as |item id|}}
     <li class='item flexrow' data-item-id='{{item._id}}'>

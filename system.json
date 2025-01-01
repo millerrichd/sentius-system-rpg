@@ -34,7 +34,32 @@
       "path": "lang/en.json"
     }
   ],
-  "packs": [],
+  "packs": [
+    {
+        "name": "traits",
+        "label": "Traits",
+        "path": "packs/traits",
+        "type": "Item",
+        "system": "sentius-rpg",
+        "ownership": {
+            "PLAYER": "LIMITED",
+            "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      },
+      {
+        "name": "hinddrances",
+        "label": "Hindrances",
+        "path": "packs/hindrances",
+        "type": "Item",
+        "system": "sentius-rpg",
+        "ownership": {
+            "PLAYER": "LIMITED",
+            "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+    }
+  ],
   "packFolders": [],
   "socket": false,
   "manifest": "https://raw.githubusercontent.com/millerrichd/sentius-system-rpg/main/system.json",

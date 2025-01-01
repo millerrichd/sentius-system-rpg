@@ -12,13 +12,13 @@ export class SentiusRPGActorSheet extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['sentius-rpg', 'sheet', 'actor'],
-      width: 600,
-      height: 600,
+      width: 800,
+      height: 800,
       tabs: [
         {
           navSelector: '.sheet-tabs',
           contentSelector: '.sheet-body',
-          initial: 'abilities',
+          initial: 'abilities'
         },
       ],
     });
@@ -144,8 +144,8 @@ export class SentiusRPGActorSheet extends ActorSheet {
 
     // Assign and return
     context.gear = gear;
-    context.hindrances = hindrances;
-    context.traits = traits;
+    context.hindrances = hindrances.sort((a, b) => a.name.localeCompare(b.name));
+    context.traits = traits.sort((a, b) => a.name.localeCompare(b.name));
     context.spells = spells;
   }
 
@@ -173,6 +173,17 @@ export class SentiusRPGActorSheet extends ActorSheet {
     html.on('click', '.item-delete', (ev) => {
       const li = $(ev.currentTarget).parents('.item');
       const item = this.actor.items.get(li.data('itemId'));
+      console.log("THEITEM", item)
+      console.log("THEITEMSACTOR", this.actor)
+
+      /* THIS IS THE ONLY WAY I KNOW HOW TO RESET THE VALUES OF THE MODIFIERS */
+      if (item.name === 'Cybernetic Acceptance') {
+        this.actor.IncreaseStability = 0;
+      }
+      if (item.name === 'Cybernetic Rejection') {
+        this.actor.DecreaseStability = 0;
+      }
+      
       item.delete();
       li.slideUp(200, () => this.render(false));
     });
@@ -203,6 +214,10 @@ export class SentiusRPGActorSheet extends ActorSheet {
     // Ability score increase/decrease.
     html.on('click', '.increase-ability', this._onIncreaseAbility.bind(this));
     html.on('click', '.decrease-ability', this._onDecreaseAbility.bind(this));
+    // Training select for training status skills
+    html.on('change', '.training-select', this._onTrainingSelect.bind(this));
+    // Checkmark for Session tickMark
+    html.on('click', '.checkbox-selected', this._onTickMark.bind(this));
   }
 
   /**
@@ -272,23 +287,28 @@ export class SentiusRPGActorSheet extends ActorSheet {
     const actorData = this.actor.system;
     const currentDie = actorData.abilities[ability].die;
     const currentBonus = actorData.abilities[ability].bonus;
+    const hindranceMod = actorData.abilities[ability].hindranceMod;
+    const traitMod = actorData.abilities[ability].traitMod;
     let newDie = '';
     let newBonus = 0;
     if(currentDie === 'd12') { 
       newDie = 'd10';
-      newBonus = 2;
+      newBonus = 2 + hindranceMod + traitMod;
     } else if(currentDie === 'd10') {
       newDie = 'd8';
-      newBonus = 4;
+      newBonus = 4 + hindranceMod + traitMod;
     } else if(currentDie === 'd8') {
       newDie = 'd6';
-      newBonus = 6;
+      newBonus = 6 + hindranceMod + traitMod;
     } else if(currentDie === 'd6') {
       newDie = 'd4';
-      newBonus = 8;
+      newBonus = 8 + hindranceMod + traitMod;
     } else if(currentDie === 'd4') {
       newDie = 'd2';
-      newBonus = 10;
+      newBonus = 10 + hindranceMod + traitMod;
+    } else if(currentDie === 'd2') {
+      newDie = 'd2';
+      newBonus = 10 + hindranceMod + traitMod;
     } else {
       newDie = currentDie;
       newBonus = currentBonus;
@@ -307,23 +327,28 @@ export class SentiusRPGActorSheet extends ActorSheet {
     const actorData = this.actor.system;
     const currentDie = actorData.abilities[ability].die;
     const currentBonus = actorData.abilities[ability].bonus;
+    const hindranceMod = actorData.abilities[ability].hindranceMod;
+    const traitMod = actorData.abilities[ability].traitMod;
     let newDie = '';
     let newBonus = 0;
     if(currentDie === 'd2') { 
       newDie = 'd4';
-      newBonus = 8;
+      newBonus = 8 + hindranceMod + traitMod;
     } else if(currentDie === 'd4') {
       newDie = 'd6';
-      newBonus = 6;
+      newBonus = 6 + hindranceMod + traitMod;
     } else if(currentDie === 'd6') {
       newDie = 'd8';
-      newBonus = 4;
+      newBonus = 4 + hindranceMod + traitMod;
     } else if(currentDie === 'd8') {
       newDie = 'd10';
-      newBonus = 2;
+      newBonus = 2 + hindranceMod + traitMod;
     } else if(currentDie === 'd10') {
       newDie = 'd12';
-      newBonus = 0;
+      newBonus = 0 + hindranceMod + traitMod;
+    } else if(currentDie === 'd12') {
+      newDie = 'd12';
+      newBonus = 0 + hindranceMod + traitMod;
     } else {
       newDie = currentDie;
       newBonus = currentBonus;
@@ -331,6 +356,92 @@ export class SentiusRPGActorSheet extends ActorSheet {
     await this.actor.update({
       [`system.abilities.${ability}.die`]: newDie,
       [`system.abilities.${ability}.bonus`]: newBonus,
+    });
+  }
+
+  async _onTrainingSelect(event) {
+    event.preventDefault();
+    console.log("Training Select", event);
+    const element = event.currentTarget;
+    const skill = element.name;
+
+    const newTrainingStatus = event.currentTarget.value;
+
+    const actorData = this.actor.system;
+    const currentSkill = actorData.skills[skill];
+
+    let dieBase = '';
+    let dieUp = '';
+    let dieDown = '';
+    let bonusBase = 0;
+    let bonusUp = 0;
+    let bonusDown = 0;
+
+    if(newTrainingStatus === currentSkill.trainingStatus) return;
+    if(newTrainingStatus === 'apprentice') {
+      dieBase = 'd10';
+      dieUp = 'd8';
+      dieDown = 'd12';
+      bonusBase = 2;
+      bonusUp = 4;
+      bonusDown = 0;
+    } else if(newTrainingStatus === 'professional') {
+      dieBase = 'd8';
+      dieUp = 'd6';
+      dieDown = 'd10';
+      bonusBase = 4;
+      bonusUp = 6;
+      bonusDown = 2;
+    } else if(newTrainingStatus === 'expert') {
+      dieBase = 'd6';
+      dieUp = 'd4';
+      dieDown = 'd8';
+      bonusBase = 6;
+      bonusUp = 8;
+      bonusDown = 4;
+    } else if(newTrainingStatus === 'master') {
+      dieBase = 'd4';
+      dieUp = 'd2';
+      dieDown = 'd6';
+      bonusBase = 8;
+      bonusUp = 10;
+      bonusDown = 6;
+    } else if(newTrainingStatus === 'legendary') {
+      dieBase = 'd2';
+      dieUp = 'd2';
+      dieDown = 'd4';
+      bonusBase = 10;
+      bonusUp = 12;
+      bonusDown = 8;
+    } else {
+      dieBase = 'd12';
+      dieUp = 'd10';
+      dieDown = 'd12';
+      bonusBase = 0;
+      bonusUp = 2;
+      bonusDown = -2;
+    }
+
+    await this.actor.update({
+      [`system.skills.${skill}.trainingStatus`]: newTrainingStatus,
+      [`system.skills.${skill}.dieBase`]: dieBase,
+      [`system.skills.${skill}.dieUp`]: dieUp,
+      [`system.skills.${skill}.dieDown`]: dieDown,
+      [`system.skills.${skill}.bonusBase`]: bonusBase,
+      [`system.skills.${skill}.bonusUp`]: bonusUp,
+      [`system.skills.${skill}.bonusDown`]: bonusDown
+    });
+  }
+
+  async _onTickMark(event) {
+    event.preventDefault();
+    const element = event.currentTarget;
+    const skill = element.name;
+
+    const newTickMark = event.currentTarget.checked;
+
+    await this.actor.update({
+      [`system.skills.${skill}.tickMark`]: newTickMark
     });
   }
 }

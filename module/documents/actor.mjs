@@ -27,100 +27,146 @@ export class SentiusRPGActor extends Actor {
    */
   prepareDerivedData() {
     const actorData = this;
-    const systemData = actorData.system;
+    const attributes = actorData.system.attributes;
+    const abilities = actorData.system.abilities;
+    const derivedAbilitiesValue = actorData.system.derivedAbilitiesValue;
+    const derivedAbilitiesPool = actorData.system.derivedAbilitiesPool;
+    const skills = actorData.system.skills;
     const flags = actorData.flags.sentiusrpg || {};
 
-    /* derived abilities - values */
-    systemData.derivedAbilitiesValue = {
-      defense: { value: Math.floor((systemData.abilities.agi.bonus + systemData.abilities.int.bonus )/ 2) },
-      fatigue: { value: Math.floor((systemData.abilities.end.bonus + systemData.abilities.wil.bonus )/ 2) },
-      initiative: { value: Math.floor((systemData.abilities.int.bonus + systemData.abilities.qui.bonus )/ 2) },
-      pace: { value: Math.floor((systemData.abilities.agi.bonus + systemData.abilities.qui.bonus )/ 2) + 2 },
-      stability: { value: Math.floor((systemData.abilities.end.bonus + systemData.abilities.wil.bonus)/ 2) }
-    }
-    console.log("prepareDerivedData", systemData.derivedAbilitiesValue);
+    console.log("prepareDerivedDataActor1", actorData);
 
-    /* derived abilties - pools */
-    const paceDieValue = Math.floor((systemData.abilities.agi.bonus + systemData.abilities.qui.bonus )/ 2);
-    let paceDie = "d4";
-    if (paceDieValue < 3) {
-      paceDie = "d4";
-    } else if( paceDieValue === 3 || paceDieValue === 4) {
-      paceDie = "d6";
-    } else if( paceDieValue === 5 || paceDieValue === 6) {
-      paceDie = "d8";
-    } else if( paceDieValue === 7 || paceDieValue === 8) {
-      paceDie = "d10";
-    } else {
-      paceDie = "d12";
+    /* ====================== HINDRANCES ====================== */
+
+    const hindrance = {
+      athletics: 0,
+      history: 0,
+      intimidation: 0,
+      performance: 0,
+      persuasion: 0,
+      stealth: 0
     }
 
-    const health = Math.floor((systemData.abilities.end.bonus + systemData.abilities.wil.bonus )/ 2);
-    let healthPool = '';
-    if(health < 3) { 
-      healthPool = 'd4';
-    } else if(health === 3 || health === 4) {
-      healthPool = 'd6';
-    } else if(health === 5 || health === 6) {
-      healthPool = 'd8';
-    } else if(health === 7 || health === 8) {
-      healthPool = 'd10';
-    } else {
-      healthPool = 'd12';
+    //Clueless Hindrance
+    if(attributes.clueless) {
+      skills.history.hindranceMod = Math.min(attributes.clueless.history.value, hindrance.history, skills.history.hindranceMod);
+      skills.perception.hindranceMod = Math.min(attributes.clueless.perception.value, hindrance.perception, skills.perception.hindranceMod);
+      hindrance.history = Math.min(attributes.clueless.history.value, hindrance.history, skills.history.hindranceMod);
+      hindrance.perception = Math.min(attributes.clueless.perception.value, hindrance.perception, skills.perception.hindranceMod);
+    }
+    //Clumsy Hindrance
+    if(attributes.clumsy) {
+      skills.athletics.hindranceMod = Math.min(attributes.clumsy.athletics.value, hindrance.athletics, skills.athletics.hindranceMod);
+      skills.stealth.hindranceMod = Math.min(attributes.clumsy.stealth.value, hindrance.stealth, skills.stealth.hindranceMod);
+      hindrance.athletics = Math.min(attributes.clumsy.athletics.value, hindrance.athletics, skills.athletics.hindranceMod);
+      hindrance.stealth = Math.min(attributes.clumsy.stealth.value, hindrance.stealth, skills.stealth.hindranceMod);
+    }
+    // Mild Manner Hindrance
+    if(attributes.mildmanner) {
+      skills.intimidation.hindranceMod = Math.min(attributes.mildmanner.intimidation.value, hindrance.intimidation, skills.intimidation.hindranceMod);
+      hindrance.intimidation = Math.min(attributes.mildmanner.intimidation.value, hindrance.intimidation, skills.intimidation.hindranceMod);
+    }
+    //Spell Energy Rejection Hindrance
+    if(attributes.spellenergyrejection) {
+    }
+    //TongueTied Hindrance
+    if(attributes.tonguetied) {
+      skills.intimidation.hindranceMod = Math.min(attributes.tonguetied.intimidation.value, hindrance.intimidation, skills.intimidation.hindranceMod);
+      skills.performance.hindranceMod = Math.min(attributes.tonguetied.performance.value, hindrance.performance, skills.performance.hindranceMod);
+      skills.persuasion.hindranceMod = Math.min(attributes.tonguetied.persuasion.value, hindrance.persuasion, skills.persuasion.hindranceMod);
+      hindrance.intimidation = Math.min(attributes.tonguetied.intimidation.value, hindrance.intimidation, skills.intimidation.hindranceMod);
+      hindrance.performance = Math.min(attributes.tonguetied.performance.value, hindrance.performance, skills.performance.hindranceMod);
+      hindrance.persuasion = Math.min(attributes.tonguetied.persuasion.value, hindrance.persuasion, skills.persuasion.hindranceMod);
+    }
+    //Ugly Minor Hindrance
+    if(attributes.uglyminor) {
+      skills.persuasion.hindranceMod = Math.min(attributes.uglyminor.persuasion.value, hindrance.persuasion, skills.persuasion.hindranceMod);
+      hindrance.persuasion = Math.min(attributes.uglyminor.persuasion.value, hindrance.persuasion, skills.persuasion.hindranceMod);
+    }
+    //Ugly Significant Hindrance
+    if(attributes.uglysignificant) {
+      skills.persuasion.hindranceMod = Math.min(attributes.uglysignificant.persuasion.value, hindrance.persuasion, skills.persuasion.hindranceMod);
+      hindrance.persuasion = Math.min(attributes.uglysignificant.persuasion.value, hindrance.persuasion, skills.persuasion.hindranceMod);
+    }
+    
+    
+    /* ====================== TRAITS ====================== */
+
+    const trait = {
+      perception: 0,
+      performance: 0,
+      persuasion: 0,
+      resistancediscipline: 0,
+      resistancemagic: 0,
+      resistancepoison: 0,
+      resistancereflex: 0,
+      resistancestamina: 0
     }
 
-    const faith = Math.floor((systemData.abilities.wil.bonus + systemData.abilities.int.bonus )/ 2);
-    let faithPool = '';
-    if(faith < 3) { 
-      faithPool = 'd4';
-    } else if(faith === 3 || faith === 4) {
-      faithPool = 'd6';
-    } else if(faith === 5 || faith === 6) {
-      faithPool = 'd8';
-    } else if(faith === 7 || faith === 8) {
-      faithPool = 'd10';
-    } else {
-      faithPool = 'd12';
+    //Agile Trait
+    if(attributes.agile) {
+      skills.resistancereflex.traitMod = Math.max(attributes.agile.resistancereflex.value, trait.resistancereflex, skills.resistancereflex.traitMod);
+      trait.resistancereflex = Math.max(attributes.agile.resistancereflex.value, trait.resistancereflex, skills.resistancereflex.traitMod);
+    }
+    //Agile, Improved Trait
+    if(attributes.agile) {
+      skills.resistancereflex.traitMod = Math.max(attributes.agileimproved.resistancereflex.value, trait.resistancereflex, skills.resistancereflex.traitMod);
+      trait.resistancereflex = Math.max(attributes.agile.resistancereflex.value, trait.resistancereflex, skills.resistancereflex.traitMod);
+    }
+    //Alertness Trait
+    if(attributes.alertness) {
+      skills.perception.traitMod = Math.max(attributes.alertness.perception.value, trait.perception, skills.perception.traitMod);
+      trait.perception = Math.max(attributes.alertness.perception.value, trait.perception, skills.perception.traitMod);
+    }
+    //Attractive Trait
+    if(attributes.attractive) {
+      skills.performance.traitMod = Math.max(attributes.attractive.performance.value, trait.performance, skills.performance.traitMod);
+      skills.persuasion.traitMod = Math.max(attributes.attractive.persuasion.value, trait.persuasion, skills.persuasion.traitMod);
+      trait.performance = Math.max(attributes.attractive.performance.value, trait.performance, skills.performance.traitMod);
+      trait.persuasion = Math.max(attributes.attractive.persuasion.value, trait.persuasion, skills.persuasion.traitMod);
+    }
+    //Core Trait
+    if(attributes.core) {
+      skills.resistancestamina.traitMod = Math.max(attributes.core.resistancestamina.value, trait.resistancestamina, skills.resistancestamina.traitMod);
+      trait.resistancestamina = Math.max(attributes.core.resistancestamina.value, trait.resistancestamina, skills.resistancestamina.traitMod);
+    }
+    //Core, Improved Trait
+    if(attributes.coreimproved) {
+      skills.resistancestamina.traitMod = Math.max(attributes.coreimproved.resistancestamina.value, trait.resistancestamina, skills.resistancestamina.traitMod);
+      trait.resistancestamina = Math.max(attributes.coreimproved.resistancestamina.value, trait.resistancestamina, skills.resistancestamina.traitMod);
+    }
+    //Improved Gut Trait
+    if(attributes.improvedgut) {
+      skills.resistancepoison.traitMod = Math.max(attributes.improvedgut.resistancepoison.value, trait.resistancepoison, skills.resistancepoison.traitMod);
+      trait.resistancepoison = Math.max(attributes.improvedgut.resistancepoison.value, trait.resistancepoison, skills.resistancepoison.traitMod);
+    }
+    //Iron Gut Trait
+    if(attributes.irongut) {
+      skills.resistancepoison.traitMod = Math.max(attributes.irongut.resistancepoison.value, trait.resistancepoison, skills.resistancepoison.traitMod);
+      trait.resistancepoison = Math.max(attributes.irongut.resistancepoison.value, trait.resistancepoison, skills.resistancepoison.traitMod);
+    }
+    //Iron Will Trait
+    if(attributes.ironwilled) {
+      skills.resistancediscipline.traitMod = Math.max(attributes.ironwilled.resistancediscipline.value, trait.resistancediscipline, skills.resistancediscipline.traitMod);
+      trait.resistancediscipline = Math.max(attributes.ironwilled.resistancediscipline.value, trait.resistancediscipline, skills.resistancediscipline.traitMod);
+    }
+    //Spell Energies, Improved Reistance Trait
+    if(attributes.spellenergiesimprovedresistance) {
+      skills.resistancemagic.traitMod = Math.max(attributes.spellenergiesimprovedresistance.resistancemagic.value, trait.resistancemagic, skills.resistancemagic.traitMod);
+      trait.resistancemagic = Math.max(attributes.spellenergiesimprovedresistance.resistancemagic.value, trait.resistancemagic, skills.resistancemagic.traitMod);
+    }
+    //Spell Energies, Resistance Trait
+    if(attributes.spellenergiesresistance) {
+      skills.resistancemagic.traitMod = Math.max(attributes.spellenergiesresistance.resistancemagic.value, trait.resistancemagic, skills.resistancemagic.traitMod);
+      trait.resistancemagic = Math.max(attributes.spellenergiesresistance.resistancemagic.value, trait.resistancemagic, skills.resistancemagic.traitMod);
+    }
+    //Strong Willed Trait
+    if(attributes.strongwilled) {
+      skills.resistancediscipline.traitMod = Math.max(attributes.strongwilled.resistancediscipline.value, trait.resistancediscipline, skills.resistancediscipline.traitMod);
+      trait.resistancediscipline = Math.max(attributes.strongwilled.resistancediscipline.value, trait.resistancediscipline, skills.resistancediscipline.traitMod);
     }
 
-    const mana = Math.floor((systemData.abilities.wil.bonus + systemData.abilities.rea.bonus )/ 2);
-    let manaPool = '';
-    if(mana < 3) { 
-      manaPool = 'd4';
-    } else if(mana === 3 || mana === 4) {
-      manaPool = 'd6';
-    } else if(mana === 5 || mana === 6) {
-      manaPool = 'd8';
-    } else if(mana === 7 || mana === 8) {
-      manaPool = 'd10';
-    } else {
-      manaPool = 'd12';
-    }
-
-    const psychic = Math.floor((systemData.abilities.wil.bonus + systemData.abilities.pre.bonus )/ 2);
-    let psychicPool = '';
-    if(psychic < 3) { 
-      psychicPool = 'd4';
-    } else if(psychic === 3 || psychic === 4) {
-      psychicPool = 'd6';
-    } else if(psychic === 5 || psychic === 6) {
-      psychicPool = 'd8';
-    } else if(psychic === 7 || psychic === 8) {
-      psychicPool = 'd10';
-    } else {
-      psychicPool = 'd12';
-    }
-
-    /* derived abilities */
-    systemData.derivedAbilitiesPool = {
-      faith: { value: faithPool },
-      health: { value: healthPool },
-      mana: { value: manaPool },
-      psychic: { value: psychicPool },
-      paceDie: { value: paceDie }
-    }
-
-    console.log("prepareDerivedData", systemData.derivedAbilitiesPool);    
+    console.log("prepareDerivedDataActor2", actorData);
   }
 
   /**
@@ -155,6 +201,8 @@ export class SentiusRPGActor extends Actor {
 
     // Add effects.
     result.effects = this.effects?.size > 0 ? this.effects.contents : [];
+
+    console.log("RESULTS ACTOR.MJS", result);
 
     return result;
   }

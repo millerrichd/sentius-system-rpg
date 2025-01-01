@@ -47,10 +47,13 @@ Hooks.once('init', function () {
   }
   CONFIG.Item.documentClass = SentiusRPGItem;
   CONFIG.Item.dataModels = {
-    item: models.SentiusRPGItem,
+    armor: models.SentiusRPGArmor,
     hindrance: models.SentiusRPGHindrance,
+    item: models.SentiusRPGItem,
+    powerarmor: models.SentiusRPGPowerArmor,
+    spell: models.SentiusRPGSpell,
     trait: models.SentiusRPGTrait,
-    spell: models.SentiusRPGSpell
+    weapon: models.SentiusRPGWeapon
   }
 
   // Active Effects are never copied to the Actor,

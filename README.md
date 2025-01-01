@@ -80,3 +80,37 @@ This system includes a handful of helper CSS classes to help you lay out your sh
 This repo includes both CSS for the theme and SCSS source files. If you're new to CSS, it's probably easier to just work in those files directly and delete the SCSS directory. If you're interested in using a CSS preprocessor to add support for nesting, variables, and more, you can run `npm install` in this directory to install the dependencies for the scss compiler. After that, just run `npm run build` to compile the SCSS and start a process that watches for new changes.
 
 ![image](http://mattsmith.in/images/sentius-rpg.png)
+
+
+
+NOTES
+> To get the compendium you make a "world" compendium, navigate to the world directory and copy the pack to the system packs and then add it to the system.json
+
+packs: [
+    {
+        "name": "traits",
+        "label": "Traits",
+        "path": "packs/traits",
+        "type": "Item",
+        "system": "sentius-rpg",
+        "ownership": {
+            "PLAYER": "LIMITED",
+            "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+    }
+]
+
+
+
+SUB TABS FOR GEAR
+1. Personal Weapons / Armor / Power Armor
+2. Vehicle Weapons / Vehicle
+3. Cybernetics
+4. Bio-Engineered
+5. Misc Gear
+
+SUB TABS FOR MAGIC
+1. Spell Energies
+2. Miracles
+3. Psychic Powerrs

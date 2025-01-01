@@ -364,3 +364,91 @@
 .sentius-rpg .effects .item .effect-controls {
   border: none;
 }
+
+.sentius-rpg .allbutright-padding {
+  padding-left: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.sentius-rpg .img-adjusters {
+  display: block;
+  max-width: 25px;
+  max-height: 25px;
+  width: auto;
+  height: auto;
+  border: 0;
+}
+
+.sentius-rpg td img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Tooltip container */
+.sentius-rpg .tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.sentius-rpg .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.sentius-rpg .tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.sentius-rpg .dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.sentius-rpg .dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.sentius-rpg .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #D7D5C9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.sentius-rpg .dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.sentius-rpg .dropdown-content a:hover {
+  background-color: #D7D5C9;
+}
+
+.sentius-rpg .dropdown:hover .dropdown-content {
+  display: block;
+}

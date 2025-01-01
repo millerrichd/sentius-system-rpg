@@ -3,6 +3,6 @@
     "types": ["character", "npc"]
   },
   "Item": {
-    "types": ["item", "hindrance", "spell", "trait"]
+    "types": ["armor", "item", "hindrance", "power armor", "spell", "trait", "weapon"]
   }
 }

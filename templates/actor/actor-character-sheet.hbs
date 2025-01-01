@@ -43,12 +43,25 @@
   </header>
 
   {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
+  <nav class="sheet-tabs tabs" data-group="frontpage">
     {{!-- Default tab is specified in actor-sheet.mjs --}}
     <a class="item" data-tab="abilities">Abilities</a>
-    <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="items">Items</a>
+    <a class="item" data-tab="skills">Skills</a>
+    <div class="dropdown">
+      <div class="item" data-tab="gear">Gear
+        <i class="fa fa-caret-down"></i>
+      </div>
+      <div class="dropdown-content">
+        <a class="item" data-tab="armor">Armor</a>
+        <a class="item" data-tab="weapons">Weapons</a>
+        <a class="item" data-tab="equipment">Equipment</a>
+        <a class="item" data-tab="powerarmor">Power Armor</a>
+        <a class="item" data-tab="vehicle">Vehicle</a>
+        <a class="item" data-tab="cybernetics">Cybernetics &amp; Bionetics</a>
+      </div>
+    </div>
     <a class="item" data-tab="spells">Spells</a>
+    <a class="item" data-tab="description">Description</a>
     <a class="item" data-tab="effects">Effects</a>
   </nav>
 
@@ -56,71 +69,144 @@
   <section class="sheet-body">
 
     {{!-- Owned Abilties Tab --}}
-    <div class="tab abilities" data-group="primary" data-tab="abilities">
+    <div class="tab abilities" data-group="frontpage" data-tab="abilities">
       <section class="grid grid-2ol">
-          {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
-          use both the "grid" and "grid-Ncol" class where "N" can be any number
-          from 1 to 12 and will create that number of columns.  --}}
         <div class="abilities grid-start-1">
-          <label class="resource-label">Abilities</label>
-          {{#each system.abilities as |ability key|}}
-          <div class="ability flexrow flex-group-center">
-            <label for="system.abilities.{{key}}.die" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.abilities key)}}">{{localize (lookup @root.config.abilities key)}}</label>
-            <button class="increase-ability" data-ability="{{key}}">+</button>
-            <label for="system.abilities.{{key}}.die" class="resource-label flexsmall align-center" data-label="Die">{{ability.die}}</label>
-            <label for="system.abilities.{{key}}.bonus" class="resource-label flexsmall align-center" data-label="Bonus">{{ability.bonus}}</label>
-            <button class="decrease-ability" data-ability="{{key}}">-</button>
-          </div>
-          {{/each}}
+          <table class="abilities">
+            <thead>
+              <tr>
+                <th>Ability</th>
+                <th width="30"></th>
+                <th width="100">Die | Bonus</th>
+                <th width="30"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each system.abilities as |ability key|}}
+              <tr>
+                <td>{{localize (lookup @root.config.abilities key)}}</td>
+                <td class="align-right">
+                  <div class="tooltip">
+                    <img src="systems/sentius-rpg/assets/increment.webp" class="img-adjusters increase-ability" data-ability="{{key}}">
+                    <span class="tooltiptext">
+                      <span class="tooltip-label">Upgrade</span>
+                    </span>
+                  </div>
+                </td>
+                <td class="align-center">{{ability.die}}+{{ability.bonus}}</td>
+                <td class="align-left">
+                  <div class="tooltip">
+                    <img src="systems/sentius-rpg/assets/decrement.webp" class="img-adjusters decrease-ability" data-ability="{{key}}">
+                    <span class="tooltiptext">
+                      <span class="tooltip-label">Downgrade</span>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          <table>
+            <thead>
+              <tr>
+                <th>Derived Ability Values</th>
+                <th width="100">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each system.derivedAbilitiesValue as |ability key|}}
+              <tr>
+                <td class="{{key}}">{{localize (lookup @root.config.derivedAbilitiesValue key)}}</td>
+                <td class="align-center">{{ability.value}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          <table>
+            <thead>
+              <tr>
+                <th>Derived Ability Pools</th>
+                <th width="100">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each system.derivedAbilitiesPool as |ability key|}}
+              <tr>
+                <td>{{localize (lookup @root.config.derivedAbilitiesPool key)}}</td>
+                <td class="align-center">{{ability.value}}</td>
+              </tr>
+              {{/each}}
+          </table>
         </div>
         <div class="derived-abilities grid-start-2">
-          <label class="resource-label">Derived Abilities</label>
-          {{#each system.derivedAbilitiesValue as |ability key|}}
-          <div class="derived-abilities flexrow flex-group-center">
-            <label for="system.derivedAbilitiesValue.{{key}}.value" class="resource-label flexlarge align-left derived-attributes-padding" data-label="{{localize (lookup @root.config.derivedAbilitiesValue key)}}">{{localize (lookup @root.config.derivedAbilitiesValue key)}}</label>
-            <label for="system.derivedAbilitiesValue.{{key}}.value" class="resource-label flexsmall align-left derived-attributes-padding" data-label="Value">{{ability.value}}</label>
-          </div>
-          {{/each}}
-          <label class="resource-label">Derived Abilities: Pools</label>
-          {{#each system.derivedAbilitiesPool as |ability key|}}
-          <div class="derived-abilities flexrow flex-group-center">
-            <label for="system.derivedAbilitiesPool.{{key}}.value" class="resource-label flexlarge align-left derived-attributes-padding" data-label="{{localize (lookup @root.config.derivedAbilitiesPool key)}}">{{localize (lookup @root.config.derivedAbilitiesPool key)}}</label>
-            <label for="system.derivedAbilitiesPool.{{key}}.value" class="resource-label flexsmall align-left derived-attributes-padding" data-label="Value">{{ability.value}}</label>
-          </div>
-          {{/each}}
-        </div>
 
         {{!-- For the main hindrance/traits list, span the right two columns --}}
         {{!-- This is a Handlebars partial. They're stored in the `/parts` folder next to this sheet, and defined in module/helpers/templates.mjs --}}
-        <section class="main grid-span-2">
-          {{> "systems/sentius-rpg/templates/actor/parts/actor-hindrances.hbs"}}
-        </section>
+          <section>
+            <label class="resource-label">Hindrances</label>
+            {{> "systems/sentius-rpg/templates/actor/parts/actor-hindrances.hbs"}}
+          </section>
 
-        <section class="main grid-span-2">
-          {{> "systems/sentius-rpg/templates/actor/parts/actor-traits.hbs"}}
-        </section>
+          <section>
+            <label class="resource-label">Traits</label>
+            {{> "systems/sentius-rpg/templates/actor/parts/actor-traits.hbs"}}
+          </section>
 
+        </div>
       </section>
     </div>
 
+    {{!-- Owned Skills Tab --}}
+    <div class="tab skills" data-group="frontpage" data-tab="skills">
+      {{> "systems/sentius-rpg/templates/actor/parts/actor-skills.hbs"}}
+    </div>
+
     {{!-- Biography Tab --}}
-    <div class="tab biography" data-group="primary" data-tab="description">
+    <div class="tab biography" data-group="frontpage" data-tab="description">
       {{!-- Editors must receive enriched text data from getData to properly handle rolls --}}
       {{editor enrichedBiography target="system.biography" engine="prosemirror" button=true editable=editable}}
     </div>
 
-    {{!-- Owned Items Tab --}}
-    <div class="tab items" data-group="primary" data-tab="items">
-       {{> "systems/sentius-rpg/templates/actor/parts/actor-items.hbs"}}
+    {{!-- Owned Weapon Tab --}}
+    <div class="tab gear" data-group="frontpage" data-tab="gear">
+       {{> "systems/sentius-rpg/templates/actor/parts/actor-weapons.hbs"}}
+    </div>
+    <div class="tab weapons" data-group="frontpage" data-tab="weapons">
+       {{> "systems/sentius-rpg/templates/actor/parts/actor-weapons.hbs"}}
+    </div>
+
+    {{!-- Owned Armor Tab --}}
+    <div class="tab armor" data-group="frontpage" data-tab="armor">
+       {{> "systems/sentius-rpg/templates/actor/parts/actor-armor.hbs"}}
+    </div>
+
+    {{!-- Owned Equipement Tab --}}
+    <div class="tab equipment" data-group="frontpage" data-tab="equipment">
+       {{> "systems/sentius-rpg/templates/actor/parts/actor-equipment.hbs"}}
+    </div>
+
+    {{!-- Owned Power Armor Tab --}}
+    <div class="tab powerarmor" data-group="frontpage" data-tab="powerarmor">
+       {{> "systems/sentius-rpg/templates/actor/parts/actor-powerarmor.hbs"}}
+    </div>
+
+    {{!-- Owned Vehicle Tab --}}
+    <div class="tab vehicle" data-group="frontpage" data-tab="vehicle">
+       {{> "systems/sentius-rpg/templates/actor/parts/actor-vehicle.hbs"}}
+    </div>
+
+    {{!-- Owned cybernetic Tab --}}
+    <div class="tab cybernetics" data-group="frontpage" data-tab="cybernetics">
+       {{> "systems/sentius-rpg/templates/actor/parts/actor-cybernetics.hbs"}}
     </div>
 
     {{!-- Owned Spells Tab --}}
-    <div class="tab spells" data-group="primary" data-tab="spells">
+    <div class="tab spells" data-group="frontpage" data-tab="spells">
       {{> "systems/sentius-rpg/templates/actor/parts/actor-spells.hbs"}}
     </div>
 
     {{!-- Active Effects Tab --}}
-    <div class="tab effects flexcol" data-group="primary" data-tab="effects">
+    <div class="tab effects flexcol" data-group="frontpage" data-tab="effects">
       {{> "systems/sentius-rpg/templates/actor/parts/actor-effects.hbs"}}
     </div>
 

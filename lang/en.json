@@ -11,7 +11,9 @@
       "Wil": { "long": "Will", "abbr": "wil" }
     },
     "DerivedAbilityValue": {
-      "Defense": { "long": "Defense", "abbr": "def" },
+      "Encumbrance": { "long": "Encumbrance", "abbr": "enc" },
+      "DefenseMelee": { "long": "Defense Melee", "abbr": "dfm" },
+      "DefenseRange": { "long": "Defense Range", "abbr": "dfr" },
       "Fatigue": { "long": "Fatigue Maximum", "abbr": "fat" },
       "Initiative": { "long": "Initiative Speed", "abbr": "ini" },
       "Pace": { "long": "Pace", "abbr": "pac" },
@@ -23,6 +25,40 @@
       "Mana": { "long": "Mana", "abbr": "man" },
       "Psychic": { "long": "Psychic", "abbr": "psy" },
       "PaceDie": { "long": "Pace Die", "abbr": "pacd" }
+    },
+    "Skill": {
+      "AnimalHandling": { "long": "Animal Handling", "abbr": "ani" },
+      "Athletics": { "long": "Athletics", "abbr": "ath" },
+      "CombatFirearms": { "long": "Combat Firearms", "abbr": "cfm" },
+      "CombatGunnery": { "long": "Combat Gunnery", "abbr": "cgn" },
+      "CombatMelee": { "long": "Combat Melee", "abbr": "cme" },
+      "CombatMissile": { "long": "Combat Missile", "abbr": "cml" },
+      "Computers": { "long": "Computers", "abbr": "com" },
+      "Demolitions": { "long": "Demolitions", "abbr": "dem" },
+      "Disguise": { "long": "Disguise", "abbr": "dis" },
+      "Drive": { "long": "Drive", "abbr": "dri" },
+      "History": { "long": "History", "abbr": "his" },
+      "Intimidation": { "long": "Intimidation", "abbr": "int" },
+      "LockstrapsElectronic": { "long": "Lockstraps Electronic", "abbr": "lke" },
+      "LockstrapsMechanical": { "long": "Lockstraps Mechanical", "abbr": "lkm" },
+      "Medicine": { "long": "Medicine", "abbr": "med" },
+      "Perception": { "long": "Perception", "abbr": "per" },
+      "Performance": { "long": "Performance", "abbr": "prf" },
+      "Persuasion": { "long": "Persuasion", "abbr": "per" },
+      "Pilot": { "long": "Pilot", "abbr": "pil" },
+      "ResistanceDiscipline": { "long": "Resistance Discipline", "abbr": "rdi" },
+      "ResistanceMagic": { "long": "Resistance Magic", "abbr": "rma" },
+      "ResistancePoison": { "long": "Resistance Poison", "abbr": "rpo" },
+      "ResistanceReflex": { "long": "Resistance Reflex", "abbr": "rrf" },
+      "ResistanceStamina": { "long": "Resistance Stamina", "abbr": "rsa" },
+      "Stealth": { "long": "Stealth", "abbr": "ste" },
+      "Survival": { "long": "Survival", "abbr": "sur" },
+      "TechnicalBiological": { "long": "Technical Biological", "abbr": "tbi" },
+      "TechnicalCybernetics": { "long": "Technical Cybernetics", "abbr": "tcy" },
+      "TechnicalElectronic": { "long": "Technical Electronic", "abbr": "tel" },
+      "TechnicalMechanical": { "long": "Technical Mechanical", "abbr": "tme" },
+      "TechnicalPower": { "long": "Technical Power", "abbr": "tpw" },
+      "TechnicalSoftware": { "long": "Technical Software", "abbr": "tso" }
     },
     "SheetLabels": {
       "Actor": "SentiusRPG Actor Sheet",
@@ -49,10 +85,13 @@
       "npc": "NPC"
     },
     "Item": {
-      "item": "Item",
+      "armor": "Armor",
       "hindrance": "Hindrance",
+      "item": "Item",
+      "power armor": "Power Armor",
       "spell": "Spell",
-      "trait": "Trait"
+      "trait": "Trait",
+      "weapon": "Weapon"
     }
   }
 }
