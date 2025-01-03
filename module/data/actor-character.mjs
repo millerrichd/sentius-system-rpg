@@ -20,6 +20,7 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
         bonus: new fields.NumberField({ ...requiredInteger, initial: 2, min: 0, max: 12}),
         hindranceMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: -2, max: 0}),
         traitMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 2}),
+        cyberMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 2}),
       });
       return obj;
     }, {}));
@@ -35,7 +36,8 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
     // Iterate over derived ability names and create a new SchemaField for each.
     schema.derivedAbilitiesPool = new fields.SchemaField(Object.keys(CONFIG.SENTIUS_RPG.derivedAbilitiesPool).reduce((obj, ability) => {
       obj[ability] = new fields.SchemaField({
-        value: new fields.StringField({ required: true, initial: "d4" })
+        value: new fields.StringField({ required: true, initial: "d4" }),
+        current: new fields.StringField({ required: true, initial: "" })
       });
       return obj;
     }, {}));
@@ -79,7 +81,7 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
         attr2 = 'wil';
       } else if (skill === 'intimidation') {
         attr1 = 'pre';
-        attr2 = 'sttr';
+        attr2 = 'str';
       } else if (skill === 'lockstrapselectronic') {
         attr1 = 'int';
         attr2 = 'rea';
@@ -146,6 +148,7 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
       obj[skill] = new fields.SchemaField({
         attr1: new fields.StringField({ required: true, initial: attr1 }),
         attr2: new fields.StringField({ required: true, initial: attr2 }),
+        maxTrainingStatus: new fields.StringField({ required: true, initial: "untrained" }),
         trainingStatus: new fields.StringField({ required: true, initial: "untrained" }),
         dieBase: new fields.StringField({ required: true, initial: "d12" }),
         dieUp: new fields.StringField({ required: true, initial: "d10" }),
@@ -153,6 +156,87 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
         bonusBase: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 12}),
         bonusUp: new fields.NumberField({ ...requiredInteger, initial: 2, min: 2, max: 14}),
         bonusDown: new fields.NumberField({ ...requiredInteger, initial: -2, min: -2, max: 10}),
+        totalBase: new fields.NumberField({ ...requiredInteger, initial: 0}),
+        totalUp: new fields.NumberField({ ...requiredInteger, initial: 2}),
+        totalDown: new fields.NumberField({ ...requiredInteger, initial: -2}),
+        isNegBase: new fields.BooleanField({ required: true, initial: false }),
+        isNegUp: new fields.BooleanField({ required: true, initial: false }),
+        isNegDown: new fields.BooleanField({ required: true, initial: true }),
+        hindranceMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: -2, max: 0}),
+        traitMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 2}),
+        tickMark: new fields.BooleanField({ required: true, initial: false }),
+      });
+      return obj;
+    }, {}));
+
+    schema.spellActions = new fields.SchemaField(Object.keys(CONFIG.SENTIUS_RPG.spellActions).reduce((obj, spellAction) => {
+      obj[spellAction] = new fields.SchemaField({
+        attr1: new fields.StringField({ required: true, initial: "rea" }),
+        attr2: new fields.StringField({ required: true, initial: "wil" }),
+        maxTrainingStatus: new fields.StringField({ required: true, initial: "untrained" }),
+        trainingStatus: new fields.StringField({ required: true, initial: "untrained" }),
+        dieBase: new fields.StringField({ required: true, initial: "d12" }),
+        dieUp: new fields.StringField({ required: true, initial: "d10" }),
+        dieDown: new fields.StringField({ required: true, initial: "d12" }),
+        bonusBase: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 12}),
+        bonusUp: new fields.NumberField({ ...requiredInteger, initial: 2, min: 2, max: 14}),
+        bonusDown: new fields.NumberField({ ...requiredInteger, initial: -2, min: -2, max: 10}),
+        totalBase: new fields.NumberField({ ...requiredInteger, initial: 0}),
+        totalUp: new fields.NumberField({ ...requiredInteger, initial: 2}),
+        totalDown: new fields.NumberField({ ...requiredInteger, initial: -2}),
+        isNegBase: new fields.BooleanField({ required: true, initial: false }),
+        isNegUp: new fields.BooleanField({ required: true, initial: false }),
+        isNegDown: new fields.BooleanField({ required: true, initial: true }),
+        hindranceMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: -2, max: 0}),
+        traitMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 2}),
+        tickMark: new fields.BooleanField({ required: true, initial: false }),
+      });
+      return obj;
+    }, {}));
+
+    schema.spellPowers = new fields.SchemaField(Object.keys(CONFIG.SENTIUS_RPG.spellPowers).reduce((obj, spellPower) => {
+      obj[spellPower] = new fields.SchemaField({
+        attr1: new fields.StringField({ required: true, initial: "rea" }),
+        attr2: new fields.StringField({ required: true, initial: "wil" }),
+        maxTrainingStatus: new fields.StringField({ required: true, initial: "untrained" }),
+        trainingStatus: new fields.StringField({ required: true, initial: "untrained" }),
+        dieBase: new fields.StringField({ required: true, initial: "d12" }),
+        dieUp: new fields.StringField({ required: true, initial: "d10" }),
+        dieDown: new fields.StringField({ required: true, initial: "d12" }),
+        bonusBase: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 12}),
+        bonusUp: new fields.NumberField({ ...requiredInteger, initial: 2, min: 2, max: 14}),
+        bonusDown: new fields.NumberField({ ...requiredInteger, initial: -2, min: -2, max: 10}),
+        totalBase: new fields.NumberField({ ...requiredInteger, initial: 0}),
+        totalUp: new fields.NumberField({ ...requiredInteger, initial: 2}),
+        totalDown: new fields.NumberField({ ...requiredInteger, initial: -2}),
+        isNegBase: new fields.BooleanField({ required: true, initial: false }),
+        isNegUp: new fields.BooleanField({ required: true, initial: false }),
+        isNegDown: new fields.BooleanField({ required: true, initial: true }),
+        hindranceMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: -2, max: 0}),
+        traitMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 2}),
+        tickMark: new fields.BooleanField({ required: true, initial: false }),
+      });
+      return obj;
+    }, {}));
+
+    schema.spellTargets = new fields.SchemaField(Object.keys(CONFIG.SENTIUS_RPG.spellTargets).reduce((obj, spellTarget) => {
+      obj[spellTarget] = new fields.SchemaField({
+        attr1: new fields.StringField({ required: true, initial: "rea" }),
+        attr2: new fields.StringField({ required: true, initial: "wil" }),
+        maxTrainingStatus: new fields.StringField({ required: true, initial: "untrained" }),
+        trainingStatus: new fields.StringField({ required: true, initial: "untrained" }),
+        dieBase: new fields.StringField({ required: true, initial: "d12" }),
+        dieUp: new fields.StringField({ required: true, initial: "d10" }),
+        dieDown: new fields.StringField({ required: true, initial: "d12" }),
+        bonusBase: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 12}),
+        bonusUp: new fields.NumberField({ ...requiredInteger, initial: 2, min: 2, max: 14}),
+        bonusDown: new fields.NumberField({ ...requiredInteger, initial: -2, min: -2, max: 10}),
+        totalBase: new fields.NumberField({ ...requiredInteger, initial: 0}),
+        totalUp: new fields.NumberField({ ...requiredInteger, initial: 2}),
+        totalDown: new fields.NumberField({ ...requiredInteger, initial: -2}),
+        isNegBase: new fields.BooleanField({ required: true, initial: false }),
+        isNegUp: new fields.BooleanField({ required: true, initial: false }),
+        isNegDown: new fields.BooleanField({ required: true, initial: true }),
         hindranceMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: -2, max: 0}),
         traitMod: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 2}),
         tickMark: new fields.BooleanField({ required: true, initial: false }),
@@ -193,6 +277,25 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
       slowdie = Math.min(attributes.slowsignificant.pacedie.value, slowdie);
     }
 
+    // CONFIGURE TRAITS FOR DERVIVED ABILITIES
+    let cyberneticacceptance = 0;
+    if(attributes.cyberneticacceptance) {
+      cyberneticacceptance = Math.min(attributes.cyberneticacceptance.stability.value);
+    }
+
+    // GET ALL STABILITY COSTS
+    let stabilityCosts = 0;
+    if(attributes.stability) {
+      for(let prop in attributes.stability) {
+        console.log("STABILITY", prop, attributes.stability[prop].value);
+        stabilityCosts += attributes.stability[prop].value;
+      }
+    }
+
+    // CONFIGURE VALUES
+    const stability = Math.max(Math.floor((this.abilities.end.bonus + this.abilities.wil.bonus)/ 2 + cyberneticrejection),0) + cyberneticacceptance;
+    const stabilityCurrent = stability - stabilityCosts;
+
     /* derived abilties - values */
     this.derivedAbilitiesValue = {
       defensemelee: {
@@ -214,7 +317,10 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
         value: (Math.floor((this.abilities.agi.bonus + this.abilities.qui.bonus )/ 2) + 2 + Math.min(obesepace, slowpace))
       },
       stability: {
-        value: Math.max(Math.floor((this.abilities.end.bonus + this.abilities.wil.bonus)/ 2 + cyberneticrejection),0)
+        value: stability
+      },
+      stabilityCurrent: {
+        value: stabilityCurrent
       }
     }
 
@@ -248,6 +354,9 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
     } else {
       healthPool = 'd12';
     }
+
+    // we'll come back to cybernetic pool and calculate it and modify the health pool later
+    const cyberneticPool = 'd0';
 
     const faith = Math.floor((this.abilities.wil.bonus + this.abilities.int.bonus )/ 2);
     let faithPool = '';
@@ -291,24 +400,47 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
       psychicPool = 'd12';
     }
 
+    let cyberneticCurrent = '';
+    if(this.derivedAbilitiesPool.cybernetic.current === '') {
+      cyberneticCurrent = cyberneticPool;
+    } else {
+      cyberneticCurrent = this.derivedAbilitiesPool.cybernetic.current;
+    }
+    let faithCurrent = '';
+    if(this.derivedAbilitiesPool.faith.current === '') {
+      faithCurrent = faithPool;
+    } else {
+      faithCurrent = this.derivedAbilitiesPool.faith.current;
+    }
+    let healthCurrent = '';
+    if(this.derivedAbilitiesPool.health.current === '') {
+      healthCurrent = healthPool;
+    } else {
+      healthCurrent = this.derivedAbilitiesPool.health.current;
+    }
+    let manaCurrent = '';
+    if(this.derivedAbilitiesPool.mana.current === '') {
+      manaCurrent = manaPool;
+    } else {
+      manaCurrent = this.derivedAbilitiesPool.mana.current;
+    }
+    let psychicCurrent = '';
+    if(this.derivedAbilitiesPool.psychic.current === '') {
+      psychicCurrent = psychicPool;
+    } else {
+      psychicCurrent = this.derivedAbilitiesPool.psychic.current;
+    }
+
     /* derived abilities */
     this.derivedAbilitiesPool = {
-      faith: {
-        value: faithPool
-      },
-      health: { 
-        value: healthPool
-      },
-      mana: {
-        value: manaPool
-      },
-      psychic: {
-        value: psychicPool
-      },
-      paceDie: {
-        value: paceDie
-      }
+      cybernetic: { value: cyberneticPool, current: cyberneticCurrent },
+      faith: { value: faithPool, current: faithCurrent },
+      health: { value: healthPool, current: healthCurrent },
+      mana: { value: manaPool, current: manaCurrent },
+      psychic: { value: psychicPool, current: psychicCurrent },
+      paceDie: { value: paceDie, current: paceDie }
     }
+    console.log("DERIVEDABILITIESPOOL", this.derivedAbilitiesPool);
   }
 
   getRollData() {

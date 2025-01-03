@@ -1,0 +1,62 @@
+<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+<div class="header-fields">
+  <h1 class="charname">
+    <input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
+  </h1>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th width="200">Pools</th>
+          <th width="100">Max</th>
+          <th width="30"></th>
+          <th width="100">Current</th>
+          <th width="30"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each system.derivedAbilitiesPool as |ability key|}}
+        {{#if (eq key 'paceDie')}}
+        {{else}}
+        <tr>
+          <td class="{{key}}">{{localize (lookup @root.config.derivedAbilitiesPool key)}}</td>
+          <td class="align-center">{{ability.value}}</td>
+          <td class="align-right">
+            <div class="tooltip">
+              <img src="systems/sentius-rpg/assets/increment-arrow.webp" class="img-adjusters increase-pool" data-ability="{{key}}">
+              <span class="tooltiptext">
+                <span class="tooltip-label">Healing</span>
+              </span>
+            </div>
+          </td>
+          <td class="align-center">
+            <div class="rollable align-center" data-roll="{{ability.current}}">
+              <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+              <span class="die-word">{{ability.current}}</span>
+            </div>
+          </td>
+          <td class="align-left">
+            <div class="tooltip">
+              <img src="systems/sentius-rpg/assets/decrement-arrow.webp" class="img-adjusters decrease-pool" data-ability="{{key}}">
+              <span class="tooltiptext">
+                <span class="tooltip-label">Damage</span>
+              </span>
+            </div>
+          </td>
+        </tr>
+        {{/if}}
+        {{/each}}
+    </table>
+  </div>
+</div>
+        {{!-- <label for="system.skills.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{skill.dieUp}}+{{skill.bonusUp}}+{{skill.hindranceMod}}+{{skill.traitMod}}" data-label="Value">
+          <div class="tooltip">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="img-adjusters" data-ability="{{key}}">
+            <span class="tooltiptext">
+              <span class="tooltip-label">Die:</span> {{skill.dieUp}}<br>
+              <span class="tooltip-label">Bonus:</span> {{skill.bonusUp}}<br>
+              <span class="tooltip-label">Hindrance Mod:</span> {{skill.hindranceMod}}<br>
+              <span class="tooltip-label">Trait Mod:</span> {{skill.traitMod}}
+            </span>
+          </div>
+        </label> --}}

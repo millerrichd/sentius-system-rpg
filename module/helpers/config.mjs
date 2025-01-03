@@ -47,6 +47,7 @@ SENTIUS_RPG.derivedAbilitiesValueAbbreviations = {
 };
 
 SENTIUS_RPG.derivedAbilitiesPool = {
+  cybernetic: 'SENTIUS_RPG.DerivedAbilityPool.Cybernetic.long',
   faith: 'SENTIUS_RPG.DerivedAbilityPool.Faith.long',
   health: 'SENTIUS_RPG.DerivedAbilityPool.Health.long',
   mana: 'SENTIUS_RPG.DerivedAbilityPool.Mana.long',
@@ -55,6 +56,7 @@ SENTIUS_RPG.derivedAbilitiesPool = {
 };
 
 SENTIUS_RPG.derivedAbilitiesPoolAbbreviations = {
+  cybernetics: 'SENTIUS_RPG.DerivedAbilityPool.Cyb.abbr',
   faith: 'SENTIUS_RPG.DerivedAbilityPool.Fth.abbr',
   health: 'SENTIUS_RPG.DerivedAbilityPool.Hea.abbr',
   mana: 'SENTIUS_RPG.DerivedAbilityPool.Man.abbr',
@@ -129,4 +131,86 @@ SENTIUS_RPG.skillsAbbreviations = {
   technicalmechanical: 'SENTIUS_RPG.Skill.TechnicalMechanical.abbr',
   technicalpower: 'SENTIUS_RPG.Skill.TechnicalPower.abbr',
   technicalsoftware: 'SENTIUS_RPG.Skill.TechnicalSoftware.abbr'
+}
+
+SENTIUS_RPG.spellActions = {
+  armor: 'SENTIUS_RPG.SpellAction.Armor.long',
+  create: 'SENTIUS_RPG.SpellAction.Create.long',
+  destroy: 'SENTIUS_RPG.SpellAction.Destroy.long',
+  repair: 'SENTIUS_RPG.SpellAction.Repair.long',
+  shield: 'SENTIUS_RPG.SpellAction.Shield.long',
+  transform: 'SENTIUS_RPG.SpellAction.Transform.long',
+  banish: 'SENTIUS_RPG.SpellAction.Banish.long',
+  control: 'SENTIUS_RPG.SpellAction.Control.long',
+  summon: 'SENTIUS_RPG.SpellAction.Summon.long'
+}
+
+SENTIUS_RPG.spellActionsAbbreviations = {
+  armor: 'SENTIUS_RPG.SpellAction.Armor.abbr',
+  create: 'SENTIUS_RPG.SpellAction.Create.abbr',
+  destroy: 'SENTIUS_RPG.SpellAction.Destroy.abbr', 
+  repair: 'SENTIUS_RPG.SpellAction.Repair.abbr',
+  shield: 'SENTIUS_RPG.SpellAction.Shield.abbr',
+  transform: 'SENTIUS_RPG.SpellAction.Transform.abbr',
+  banish: 'SENTIUS_RPG.SpellAction.Banish.abbr',
+  control: 'SENTIUS_RPG.SpellAction.Control.abbr',
+  summon: 'SENTIUS_RPG.SpellAction.Summon.abbr'
+}
+
+SENTIUS_RPG.spellPowers = {
+  air: 'SENTIUS_RPG.SpellPower.Air.long',
+  animal: 'SENTIUS_RPG.SpellPower.Animal.long',
+  dark: 'SENTIUS_RPG.SpellPower.Dark.long',
+  earth: 'SENTIUS_RPG.SpellPower.Earth.long',
+  fire: 'SENTIUS_RPG.SpellPower.Fire.long',
+  force: 'SENTIUS_RPG.SpellPower.Force.long',
+  light: 'SENTIUS_RPG.SpellPower.Light.long',
+  plant: 'SENTIUS_RPG.SpellPower.Plant.long',
+  water: 'SENTIUS_RPG.SpellPower.Water.long',
+  ash: 'SENTIUS_RPG.SpellPower.Ash.long',
+  fissure: 'SENTIUS_RPG.SpellPower.Fissure.long',
+  lava: 'SENTIUS_RPG.SpellPower.Lava.long',
+  mist: 'SENTIUS_RPG.SpellPower.Mist.long',
+  mud: 'SENTIUS_RPG.SpellPower.Mud.long',
+  steam: 'SENTIUS_RPG.SpellPower.Steam.long',
+  angelic: 'SENTIUS_RPG.SpellPower.Angelic.long',
+  demonic: 'SENTIUS_RPG.SpellPower.Demonic.long',
+  spirit: 'SENTIUS_RPG.SpellPower.Spirit.long'
+}
+
+SENTIUS_RPG.spellPowersAbbreviations = {
+  air: 'SENTIUS_RPG.SpellPower.Air.abbr',
+  animal: 'SENTIUS_RPG.SpellPower.Animal.abbr',
+  dark: 'SENTIUS_RPG.SpellPower.Dark.abbr',
+  earth: 'SENTIUS_RPG.SpellPower.Earth.abbr',
+  fire: 'SENTIUS_RPG.SpellPower.Fire.abbr',
+  force: 'SENTIUS_RPG.SpellPower.Force.abbr',
+  light: 'SENTIUS_RPG.SpellPower.Light.abbr',
+  plant: 'SENTIUS_RPG.SpellPower.Plant.abbr',
+  water: 'SENTIUS_RPG.SpellPower.Water.abbr',
+  ash: 'SENTIUS_RPG.SpellPower.Ash.abbr',
+  fissure: 'SENTIUS_RPG.SpellPower.Fissure.abbr',
+  lava: 'SENTIUS_RPG.SpellPower.Lava.abbr',
+  mist: 'SENTIUS_RPG.SpellPower.Mist.abbr',
+  mud: 'SENTIUS_RPG.SpellPower.Mud.abbr',
+  steam: 'SENTIUS_RPG.SpellPower.Steam.abbr',
+  angelic: 'SENTIUS_RPG.SpellPower.Angelic.abbr',
+  demonic: 'SENTIUS_RPG.SpellPower.Demonic.abbr',
+  spirit: 'SENTIUS_RPG.SpellPower.Spirit.abbr'
+}
+
+SENTIUS_RPG.spellTargets = {
+  it: 'SENTIUS_RPG.SpellTarget.It.long',
+  me: 'SENTIUS_RPG.SpellTarget.Me.long',
+  them: 'SENTIUS_RPG.SpellTarget.Them.long',
+  there: 'SENTIUS_RPG.SpellTarget.There.long',
+  you: 'SENTIUS_RPG.SpellTarget.You.long'
+}
+
+SENTIUS_RPG.spellTargetsAbbreviations = {
+  it: 'SENTIUS_RPG.SpellTarget.It.abbr',
+  me: 'SENTIUS_RPG.SpellTarget.Me.abbr',
+  them: 'SENTIUS_RPG.SpellTarget.Them.abbr',
+  there: 'SENTIUS_RPG.SpellTarget.There.abbr',
+  you: 'SENTIUS_RPG.SpellTarget.You.abbr'
 }

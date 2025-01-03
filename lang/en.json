@@ -20,6 +20,7 @@
       "Stability": { "long": "Stability", "abbr": "sta" }      
     },
     "DerivedAbilityPool": {
+      "Cybernetic": { "long": "Cybernetic", "abbr": "cyb" },
       "Faith": { "long": "Faith", "abbr": "fth" },
       "Health": { "long": "Health", "abbr": "hea" },
       "Mana": { "long": "Mana", "abbr": "man" },
@@ -60,6 +61,44 @@
       "TechnicalPower": { "long": "Technical Power", "abbr": "tpw" },
       "TechnicalSoftware": { "long": "Technical Software", "abbr": "tso" }
     },
+    "SpellAction": {
+      "Armor": { "long": "Armor", "abbr": "arm" },
+      "Create": { "long": "Create", "abbr": "cre" },
+      "Destroy": { "long": "Destroy", "abbr": "des" },
+      "Repair": { "long": "Repair", "abbr": "rep" },
+      "Shield": { "long": "Shield", "abbr": "shi" },
+      "Transform": { "long": "Transform", "abbr": "tra" },
+      "Banish": { "long": "Banish", "abbr": "ban" },
+      "Control": { "long": "Control", "abbr": "con" },
+      "Summon": { "long": "Summon", "abbr": "sum" }
+    },
+    "SpellPower": {
+      "Air": { "long": "Air", "abbr": "air" },
+      "Animal": { "long": "Animal", "abbr": "ani" },
+      "Dark": { "long": "Dark", "abbr": "dar" },
+      "Earth": { "long": "Earth", "abbr": "ear" },
+      "Fire": { "long": "Fire", "abbr": "fir" },
+      "Force": { "long": "Force", "abbr": "for" },
+      "Light": { "long": "Light", "abbr": "lig" },
+      "Plant": { "long": "Plant", "abbr": "pla" },
+      "Water": { "long": "Water", "abbr": "wat" },
+      "Ash": { "long": "Ash", "abbr": "ash" },
+      "Fissure": { "long": "Fissure", "abbr": "fis" },
+      "Lava": { "long": "Lava", "abbr": "lav" },
+      "Mist": { "long": "Mist", "abbr": "mis" },
+      "Mud": { "long": "Mud", "abbr": "mud" },
+      "Steam": { "long": "Steam", "abbr": "ste" },
+      "Angelic": { "long": "Angelic", "abbr": "ang" },
+      "Demonic": { "long": "Demonic", "abbr": "dem" },
+      "Spirit": { "long": "Spirit", "abbr": "spi" }
+    },
+    "SpellTarget": {
+      "It": { "long": "It", "abbr": "it" },
+      "Me": { "long": "Me", "abbr": "me" },
+      "Them": { "long": "Them", "abbr": "thm" },
+      "There": { "long": "There", "abbr": "the" },
+      "You": { "long": "You", "abbr": "you" }
+    },
     "SheetLabels": {
       "Actor": "SentiusRPG Actor Sheet",
       "Item": "SentiusRPG Item Sheet"
@@ -86,11 +125,14 @@
     },
     "Item": {
       "armor": "Armor",
+      "cybernetic": "Cybernetic",
       "hindrance": "Hindrance",
       "item": "Item",
-      "power armor": "Power Armor",
+      "powerarmor": "Power Armor",
       "spell": "Spell",
       "trait": "Trait",
+      "vehicle": "Vehicle",
+      "vehicleweapon": "Vehicle Weapon",
       "weapon": "Weapon"
     }
   }

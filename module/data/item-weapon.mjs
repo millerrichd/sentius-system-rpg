@@ -15,7 +15,7 @@ export default class SentiusRPGWeapon extends SentiusRPGItemBase {
       rangeIncrement: new fields.NumberField({ ...requiredInteger, initial: 5 }),
       damageType: new fields.StringField({ initial: "slashing" }),
       attackType: new fields.StringField({ initial: "melee" }),
-      properties: new fields.StringField({ initial: "light" }),
+      properties: new fields.StringField({ initial: "" }),
       armorPiercing: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
       minStrengthBonus: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
       capacity: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
@@ -32,7 +32,5 @@ export default class SentiusRPGWeapon extends SentiusRPGItemBase {
     const weapon = this.weapon;
 
     this.formula = `${weapon.diceNum}${weapon.diceSize}${weapon.diceBonus}`
-
-    console.log("WEAPON", weapon)
   }
 }

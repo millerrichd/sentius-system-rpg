@@ -1,6 +1,6 @@
 import SentiusRPGItemBase from "./base-item.mjs";
 
-export default class SentiusRPGItem extends SentiusRPGItemBase {
+export default class SentiusRPGArmor extends SentiusRPGItemBase {
 
   static defineSchema() {
     const fields = foundry.data.fields;
@@ -11,7 +11,8 @@ export default class SentiusRPGItem extends SentiusRPGItemBase {
     schema.armor = new fields.SchemaField({
       armorRating: new fields.NumberField({ ...requiredInteger, initial: 1, min: 0 }),
       armorDie: new fields.StringField({ initial: "d4" }),
-      properties: new fields.StringField({ initial: "Light" }),
+      armorCurrentDie: new fields.StringField({ initial: "" }),
+      properties: new fields.StringField({ initial: "" }),
       minStrengthBonus: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
       locations: new fields.StringField({ initial: "Torso" }),
       worn: new fields.BooleanField({ initial: false })
@@ -24,6 +25,12 @@ export default class SentiusRPGItem extends SentiusRPGItemBase {
     // Build the formula dynamically using string interpolation
     const armor = this.armor;
 
-    this.formula = `${armor.armorDie}`
+    if (armor.armorCurrentDie === '') {
+      this.armor.armorCurrentDie = armor.armorDie;
+    } else {
+      this.armor.armorCurrentDie = armor.armorCurrentDie;
+    }
+
+    this.formula = `${armor.armorCurrentDie}`
   }
 }

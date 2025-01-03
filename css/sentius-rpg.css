@@ -236,6 +236,7 @@
   margin: 0;
 }
 .sentius-rpg .sheet-tabs {
+  position: relative;
   flex: 0;
 }
 .sentius-rpg .sheet-body,
@@ -425,6 +426,7 @@
   background-color: inherit;
   font-family: inherit;
   margin: 0;
+  vertical-align: top;
 }
 
 .sentius-rpg .dropdown-content {
@@ -451,4 +453,21 @@
 
 .sentius-rpg .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.sentius-rpg .die-icon .die-word {
+  display: inline-block;
+}
+.sentius-rpg .die-word {
+  line-height: 25px;
+  vertical-align: top;
+  margin-left: 8px;
+}
+.sentius-rpg .die-icon {
+  display: inline-block;
+  max-width: 25px;
+  max-height: 25px;
+  width: auto;
+  height: auto;
+ border: 0;
 }

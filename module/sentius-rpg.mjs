@@ -48,11 +48,13 @@ Hooks.once('init', function () {
   CONFIG.Item.documentClass = SentiusRPGItem;
   CONFIG.Item.dataModels = {
     armor: models.SentiusRPGArmor,
+    cybernetic: models.SentiusRPGCybernetic,
     hindrance: models.SentiusRPGHindrance,
     item: models.SentiusRPGItem,
     powerarmor: models.SentiusRPGPowerArmor,
-    spell: models.SentiusRPGSpell,
     trait: models.SentiusRPGTrait,
+    vehicle: models.SentiusRPGVehicle,
+    vehicleweapon: models.SentiusRPGVehicleWeapon,
     weapon: models.SentiusRPGWeapon
   }
 

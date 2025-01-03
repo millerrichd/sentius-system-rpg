@@ -216,8 +216,14 @@ export class SentiusRPGActorSheet extends ActorSheet {
     html.on('click', '.decrease-ability', this._onDecreaseAbility.bind(this));
     // Training select for training status skills
     html.on('change', '.training-select', this._onTrainingSelect.bind(this));
+    html.on('change', '.training-select-actionspell', this._onTrainingSelectActionSpell.bind(this));
+    html.on('change', '.training-select-powerspell', this._onTrainingSelectPowerSpell.bind(this));
+    html.on('change', '.training-select-targetspell', this._onTrainingSelectTargetSpell.bind(this));
     // Checkmark for Session tickMark
     html.on('click', '.checkbox-selected', this._onTickMark.bind(this));
+    // Pool increase/decrease.
+    html.on('click', '.increase-pool', this._onIncreasePool.bind(this));
+    html.on('click', '.decrease-pool', this._onDecreasePool.bind(this));
   }
 
   /**
@@ -289,26 +295,27 @@ export class SentiusRPGActorSheet extends ActorSheet {
     const currentBonus = actorData.abilities[ability].bonus;
     const hindranceMod = actorData.abilities[ability].hindranceMod;
     const traitMod = actorData.abilities[ability].traitMod;
+    const cyberMod = actorData.abilities[ability].cyberMod;
     let newDie = '';
     let newBonus = 0;
     if(currentDie === 'd12') { 
       newDie = 'd10';
-      newBonus = 2 + hindranceMod + traitMod;
+      newBonus = 2 + hindranceMod + traitMod + cyberMod;
     } else if(currentDie === 'd10') {
       newDie = 'd8';
-      newBonus = 4 + hindranceMod + traitMod;
+      newBonus = 4 + hindranceMod + traitMod + cyberMod;
     } else if(currentDie === 'd8') {
       newDie = 'd6';
-      newBonus = 6 + hindranceMod + traitMod;
+      newBonus = 6 + hindranceMod + traitMod + cyberMod;
     } else if(currentDie === 'd6') {
       newDie = 'd4';
-      newBonus = 8 + hindranceMod + traitMod;
+      newBonus = 8 + hindranceMod + traitMod + cyberMod;
     } else if(currentDie === 'd4') {
       newDie = 'd2';
-      newBonus = 10 + hindranceMod + traitMod;
+      newBonus = 10 + hindranceMod + traitMod + cyberMod;
     } else if(currentDie === 'd2') {
       newDie = 'd2';
-      newBonus = 10 + hindranceMod + traitMod;
+      newBonus = 10 + hindranceMod + traitMod + cyberMod;
     } else {
       newDie = currentDie;
       newBonus = currentBonus;
@@ -329,26 +336,27 @@ export class SentiusRPGActorSheet extends ActorSheet {
     const currentBonus = actorData.abilities[ability].bonus;
     const hindranceMod = actorData.abilities[ability].hindranceMod;
     const traitMod = actorData.abilities[ability].traitMod;
+    const cyberMod = actorData.abilities[ability].cyberMod;
     let newDie = '';
     let newBonus = 0;
     if(currentDie === 'd2') { 
       newDie = 'd4';
-      newBonus = 8 + hindranceMod + traitMod;
+      newBonus = 8 + hindranceMod + traitMod + cyberMod;
     } else if(currentDie === 'd4') {
       newDie = 'd6';
-      newBonus = 6 + hindranceMod + traitMod;
+      newBonus = 6 + hindranceMod + traitMod + cyberMod;
     } else if(currentDie === 'd6') {
       newDie = 'd8';
-      newBonus = 4 + hindranceMod + traitMod;
+      newBonus = 4 + hindranceMod + traitMod + cyberMod;
     } else if(currentDie === 'd8') {
       newDie = 'd10';
-      newBonus = 2 + hindranceMod + traitMod;
+      newBonus = 2 + hindranceMod + traitMod + cyberMod;
     } else if(currentDie === 'd10') {
       newDie = 'd12';
-      newBonus = 0 + hindranceMod + traitMod;
+      newBonus = 0 + hindranceMod + traitMod + cyberMod;
     } else if(currentDie === 'd12') {
       newDie = 'd12';
-      newBonus = 0 + hindranceMod + traitMod;
+      newBonus = 0 + hindranceMod + traitMod + cyberMod;
     } else {
       newDie = currentDie;
       newBonus = currentBonus;
@@ -369,6 +377,7 @@ export class SentiusRPGActorSheet extends ActorSheet {
 
     const actorData = this.actor.system;
     const currentSkill = actorData.skills[skill];
+    console.log("Current Skill", currentSkill);
 
     let dieBase = '';
     let dieUp = '';
@@ -422,6 +431,10 @@ export class SentiusRPGActorSheet extends ActorSheet {
       bonusDown = -2;
     }
 
+    const totalBase = bonusBase + currentSkill.hindranceMod + currentSkill.traitMod;
+    const totalUp = bonusUp + currentSkill.hindranceMod + currentSkill.traitMod;
+    const totalDown = bonusDown + currentSkill.hindranceMod + currentSkill.traitMod;
+
     await this.actor.update({
       [`system.skills.${skill}.trainingStatus`]: newTrainingStatus,
       [`system.skills.${skill}.dieBase`]: dieBase,
@@ -429,9 +442,272 @@ export class SentiusRPGActorSheet extends ActorSheet {
       [`system.skills.${skill}.dieDown`]: dieDown,
       [`system.skills.${skill}.bonusBase`]: bonusBase,
       [`system.skills.${skill}.bonusUp`]: bonusUp,
-      [`system.skills.${skill}.bonusDown`]: bonusDown
+      [`system.skills.${skill}.bonusDown`]: bonusDown,
+      [`system.skills.${skill}.totalBase`]: totalBase,
+      [`system.skills.${skill}.totalUp`]: totalUp,
+      [`system.skills.${skill}.totalDown`]: totalDown,
+      [`system.skills.${skill}.isNegBase`]: (totalBase < 0),
+      [`system.skills.${skill}.isNegUp`]: (totalUp < 0),
+      [`system.skills.${skill}.isNegDown`]: (totalDown < 0)
+
     });
   }
+
+  async _onTrainingSelectActionSpell(event) {
+    event.preventDefault();
+    console.log("Training Select", event);
+    const element = event.currentTarget;
+    const spell = element.name;
+
+    const newTrainingStatus = event.currentTarget.value;
+
+    const actorData = this.actor.system;
+    const currentSpell = actorData.spellActions[spell];
+    console.log("Current Spell", currentSpell);
+
+    let dieBase = '';
+    let dieUp = '';
+    let dieDown = '';
+    let bonusBase = 0;
+    let bonusUp = 0;
+    let bonusDown = 0;
+
+    if(newTrainingStatus === currentSpell.trainingStatus) return;
+    if(newTrainingStatus === 'apprentice') {
+      dieBase = 'd10';
+      dieUp = 'd8';
+      dieDown = 'd12';
+      bonusBase = 2;
+      bonusUp = 4;
+      bonusDown = 0;
+    } else if(newTrainingStatus === 'professional') {
+      dieBase = 'd8';
+      dieUp = 'd6';
+      dieDown = 'd10';
+      bonusBase = 4;
+      bonusUp = 6;
+      bonusDown = 2;
+    } else if(newTrainingStatus === 'expert') {
+      dieBase = 'd6';
+      dieUp = 'd4';
+      dieDown = 'd8';
+      bonusBase = 6;
+      bonusUp = 8;
+      bonusDown = 4;
+    } else if(newTrainingStatus === 'master') {
+      dieBase = 'd4';
+      dieUp = 'd2';
+      dieDown = 'd6';
+      bonusBase = 8;
+      bonusUp = 10;
+      bonusDown = 6;
+    } else if(newTrainingStatus === 'legendary') {
+      dieBase = 'd2';
+      dieUp = 'd2';
+      dieDown = 'd4';
+      bonusBase = 10;
+      bonusUp = 12;
+      bonusDown = 8;
+    } else {
+      dieBase = 'd12';
+      dieUp = 'd10';
+      dieDown = 'd12';
+      bonusBase = 0;
+      bonusUp = 2;
+      bonusDown = -2;
+    }
+
+    const totalBase = bonusBase + currentSpell.hindranceMod + currentSpell.traitMod;
+    const totalUp = bonusUp + currentSpell.hindranceMod + currentSpell.traitMod;
+    const totalDown = bonusDown + currentSpell.hindranceMod + currentSpell.traitMod;
+
+    await this.actor.update({
+      [`system.spellActions.${spell}.trainingStatus`]: newTrainingStatus,
+      [`system.spellActions.${spell}.dieBase`]: dieBase,
+      [`system.spellActions.${spell}.dieUp`]: dieUp,
+      [`system.spellActions.${spell}.dieDown`]: dieDown,
+      [`system.spellActions.${spell}.bonusBase`]: bonusBase,
+      [`system.spellActions.${spell}.bonusUp`]: bonusUp,
+      [`system.spellActions.${spell}.bonusDown`]: bonusDown,
+      [`system.spellActions.${spell}.totalBase`]: totalBase,
+      [`system.spellActions.${spell}.totalUp`]: totalUp,
+      [`system.spellActions.${spell}.totalDown`]: totalDown,
+      [`system.spellActions.${spell}.isNegBase`]: (totalBase < 0),
+      [`system.spellActions.${spell}.isNegUp`]: (totalUp < 0),
+      [`system.spellActions.${spell}.isNegDown`]: (totalDown < 0)
+    });
+  }
+
+  async _onTrainingSelectPowerSpell(event) {
+    event.preventDefault();
+    console.log("Training Select", event);
+    const element = event.currentTarget;
+    const spell = element.name;
+
+    const newTrainingStatus = event.currentTarget.value;
+
+    const actorData = this.actor.system;
+    const currentSpell = actorData.spellPowers[spell];
+    console.log("Current Spell", currentSpell);
+
+    let dieBase = '';
+    let dieUp = '';
+    let dieDown = '';
+    let bonusBase = 0;
+    let bonusUp = 0;
+    let bonusDown = 0;
+
+    if(newTrainingStatus === currentSpell.trainingStatus) return;
+    if(newTrainingStatus === 'apprentice') {
+      dieBase = 'd10';
+      dieUp = 'd8';
+      dieDown = 'd12';
+      bonusBase = 2;
+      bonusUp = 4;
+      bonusDown = 0;
+    } else if(newTrainingStatus === 'professional') {
+      dieBase = 'd8';
+      dieUp = 'd6';
+      dieDown = 'd10';
+      bonusBase = 4;
+      bonusUp = 6;
+      bonusDown = 2;
+    } else if(newTrainingStatus === 'expert') {
+      dieBase = 'd6';
+      dieUp = 'd4';
+      dieDown = 'd8';
+      bonusBase = 6;
+      bonusUp = 8;
+      bonusDown = 4;
+    } else if(newTrainingStatus === 'master') {
+      dieBase = 'd4';
+      dieUp = 'd2';
+      dieDown = 'd6';
+      bonusBase = 8;
+      bonusUp = 10;
+      bonusDown = 6;
+    } else if(newTrainingStatus === 'legendary') {
+      dieBase = 'd2';
+      dieUp = 'd2';
+      dieDown = 'd4';
+      bonusBase = 10;
+      bonusUp = 12;
+      bonusDown = 8;
+    } else {
+      dieBase = 'd12';
+      dieUp = 'd10';
+      dieDown = 'd12';
+      bonusBase = 0;
+      bonusUp = 2;
+      bonusDown = -2;
+    }
+
+    const totalBase = bonusBase + currentSpell.hindranceMod + currentSpell.traitMod;
+    const totalUp = bonusUp + currentSpell.hindranceMod + currentSpell.traitMod;
+    const totalDown = bonusDown + currentSpell.hindranceMod + currentSpell.traitMod;
+
+    await this.actor.update({
+      [`system.spellPowers.${spell}.trainingStatus`]: newTrainingStatus,
+      [`system.spellPowers.${spell}.dieBase`]: dieBase,
+      [`system.spellPowers.${spell}.dieUp`]: dieUp,
+      [`system.spellPowers.${spell}.dieDown`]: dieDown,
+      [`system.spellPowers.${spell}.bonusBase`]: bonusBase,
+      [`system.spellPowers.${spell}.bonusUp`]: bonusUp,
+      [`system.spellPowers.${spell}.bonusDown`]: bonusDown,
+      [`system.spellPowers.${spell}.totalBase`]: totalBase,
+      [`system.spellPowers.${spell}.totalUp`]: totalUp,
+      [`system.spellPowers.${spell}.totalDown`]: totalDown,
+      [`system.spellPowers.${spell}.isNegBase`]: (totalBase < 0),
+      [`system.spellPowers.${spell}.isNegUp`]: (totalUp < 0),
+      [`system.spellPowers.${spell}.isNegDown`]: (totalDown < 0)
+    });
+  }
+
+  async _onTrainingSelectTargetSpell(event) {
+    event.preventDefault();
+    console.log("Training Select", event);
+    const element = event.currentTarget;
+    const spell = element.name;
+
+    const newTrainingStatus = event.currentTarget.value;
+
+    const actorData = this.actor.system;
+    const currentSpell = actorData.spellTargets[spell];
+    console.log("Current Spell", currentSpell);
+
+    let dieBase = '';
+    let dieUp = '';
+    let dieDown = '';
+    let bonusBase = 0;
+    let bonusUp = 0;
+    let bonusDown = 0;
+
+    if(newTrainingStatus === currentSpell.trainingStatus) return;
+    if(newTrainingStatus === 'apprentice') {
+      dieBase = 'd10';
+      dieUp = 'd8';
+      dieDown = 'd12';
+      bonusBase = 2;
+      bonusUp = 4;
+      bonusDown = 0;
+    } else if(newTrainingStatus === 'professional') {
+      dieBase = 'd8';
+      dieUp = 'd6';
+      dieDown = 'd10';
+      bonusBase = 4;
+      bonusUp = 6;
+      bonusDown = 2;
+    } else if(newTrainingStatus === 'expert') {
+      dieBase = 'd6';
+      dieUp = 'd4';
+      dieDown = 'd8';
+      bonusBase = 6;
+      bonusUp = 8;
+      bonusDown = 4;
+    } else if(newTrainingStatus === 'master') {
+      dieBase = 'd4';
+      dieUp = 'd2';
+      dieDown = 'd6';
+      bonusBase = 8;
+      bonusUp = 10;
+      bonusDown = 6;
+    } else if(newTrainingStatus === 'legendary') {
+      dieBase = 'd2';
+      dieUp = 'd2';
+      dieDown = 'd4';
+      bonusBase = 10;
+      bonusUp = 12;
+      bonusDown = 8;
+    } else {
+      dieBase = 'd12';
+      dieUp = 'd10';
+      dieDown = 'd12';
+      bonusBase = 0;
+      bonusUp = 2;
+      bonusDown = -2;
+    }
+
+    const totalBase = bonusBase + currentSpell.hindranceMod + currentSpell.traitMod;
+    const totalUp = bonusUp + currentSpell.hindranceMod + currentSpell.traitMod;
+    const totalDown = bonusDown + currentSpell.hindranceMod + currentSpell.traitMod;
+
+    await this.actor.update({
+      [`system.spellTargets.${spell}.trainingStatus`]: newTrainingStatus,
+      [`system.spellTargets.${spell}.dieBase`]: dieBase,
+      [`system.spellTargets.${spell}.dieUp`]: dieUp,
+      [`system.spellTargets.${spell}.dieDown`]: dieDown,
+      [`system.spellTargets.${spell}.bonusBase`]: bonusBase,
+      [`system.spellTargets.${spell}.bonusUp`]: bonusUp,
+      [`system.spellTargets.${spell}.bonusDown`]: bonusDown,
+      [`system.spellTargets.${spell}.totalBase`]: totalBase,
+      [`system.spellTargets.${spell}.totalUp`]: totalUp,
+      [`system.spellTargets.${spell}.totalDown`]: totalDown,
+      [`system.spellTargets.${spell}.isNegBase`]: (totalBase < 0),
+      [`system.spellTargets.${spell}.isNegUp`]: (totalUp < 0),
+      [`system.spellTargets.${spell}.isNegDown`]: (totalDown < 0)
+    });
+  }
+
 
   async _onTickMark(event) {
     event.preventDefault();
@@ -442,6 +718,72 @@ export class SentiusRPGActorSheet extends ActorSheet {
 
     await this.actor.update({
       [`system.skills.${skill}.tickMark`]: newTickMark
+    });
+  }
+
+  //affect the current healing pools.
+  async _onIncreasePool(event) {
+    event.preventDefault();
+    const abilityName = event.currentTarget.dataset.ability;
+    const abilityData = this.actor.system.derivedAbilitiesPool[abilityName];
+
+    const mapping = {
+      'd12': 12,
+      'd10': 10,
+      'd8': 8,
+      'd6': 6,
+      'd4': 4,
+      'd2': 2,
+      'd1': 1,
+      'd0': 0
+    }
+
+    let newCurrent = 'd0';
+    if(mapping[abilityData.current] < mapping[abilityData.value] && abilityData.current === 'd0') {
+      newCurrent = 'd1';
+    } else if(mapping[abilityData.current] < mapping[abilityData.value] && abilityData.current === 'd1') {
+      newCurrent = 'd2';
+    } else if(mapping[abilityData.current] < mapping[abilityData.value] && abilityData.current === 'd2') {
+      newCurrent = 'd4';
+    } else if(mapping[abilityData.current] < mapping[abilityData.value] && abilityData.current === 'd4') {
+      newCurrent = 'd6';
+    } else if(mapping[abilityData.current] < mapping[abilityData.value] && abilityData.current === 'd6') {
+      newCurrent = 'd8';
+    } else if(mapping[abilityData.current] < mapping[abilityData.value] && abilityData.current === 'd8') {
+      newCurrent = 'd10';
+    } else if(mapping[abilityData.current] < mapping[abilityData.value] && abilityData.current === 'd10') {
+      newCurrent = 'd12';
+    } else {
+      newCurrent = abilityData.current; 
+    }
+    const result = await this.actor.update({
+      [`system.derivedAbilitiesPool.${abilityName}.current`]: newCurrent
+    });
+  }
+  
+  async _onDecreasePool(event) {
+    event.preventDefault();
+    const abilityName = event.currentTarget.dataset.ability;
+    const abilityData = this.actor.system.derivedAbilitiesPool[abilityName];
+  
+    let newCurrent = 'd12';
+    if(abilityData.current === 'd12') {
+      newCurrent = 'd10';
+    } else if (abilityData.current === 'd10') {
+      newCurrent = 'd8';
+    } else if (abilityData.current === 'd8') {
+      newCurrent = 'd6';
+    } else if (abilityData.current === 'd6') {
+      newCurrent = 'd4';
+    } else if (abilityData.current === 'd4') {
+      newCurrent = 'd2';
+    } else if (abilityData.current === 'd2') {
+      newCurrent = 'd1';
+    } else {
+      newCurrent = 'd0';
+    }
+    const result = await this.actor.update({
+      [`system.derivedAbilitiesPool.${abilityName}.current`]: newCurrent
     });
   }
 }

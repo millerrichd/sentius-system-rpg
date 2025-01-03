@@ -1,0 +1,87 @@
+<section class="grid grid-2ol">
+  <div class="abilities grid-start-1">
+    <table class="abilities">
+      <thead>
+        <tr>
+          <th>Ability</th>
+          <th width="30"></th>
+          <th width="100">Die | Bonus</th>
+          <th width="30"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each system.abilities as |ability key|}}
+        <tr>
+          <td>{{localize (lookup @root.config.abilities key)}}</td>
+          <td class="align-right">
+            <div class="tooltip">
+              <img src="systems/sentius-rpg/assets/increment-arrow.webp" class="img-adjusters increase-ability" data-ability="{{key}}">
+              <span class="tooltiptext">
+                <span class="tooltip-label">Upgrade</span>
+              </span>
+            </div>
+          </td>
+          <td class="align-center">{{ability.die}}+{{ability.bonus}}</td>
+          <td class="align-left">
+            <div class="tooltip">
+              <img src="systems/sentius-rpg/assets/decrement-arrow.webp" class="img-adjusters decrease-ability" data-ability="{{key}}">
+              <span class="tooltiptext">
+                <span class="tooltip-label">Downgrade</span>
+              </span>
+            </div>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Derived Ability Values</th>
+          <th width="100">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each system.derivedAbilitiesValue as |ability key|}}
+        {{#if (eq key 'stabilityCurrent')}}
+        {{else}}
+        <tr>
+          <td class="{{key}}">{{localize (lookup @root.config.derivedAbilitiesValue key)}}</td>
+          <td class="align-center">{{ability.value}}</td>
+        </tr>
+        {{/if}}
+        {{/each}}
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Derived Ability Pools</th>
+          <th width="100">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each system.derivedAbilitiesPool as |ability key|}}
+        <tr>
+          <td>{{localize (lookup @root.config.derivedAbilitiesPool key)}}</td>
+          <td class="align-center">{{ability.value}}</td>
+        </tr>
+        {{/each}}
+    </table>
+  </div>
+  <div class="derived-abilities grid-start-2">
+
+  {{!-- For the main hindrance/traits list, span the right two columns --}}
+  {{!-- This is a Handlebars partial. They're stored in the `/parts` folder next to this sheet, and defined in module/helpers/templates.mjs --}}
+    <section>
+      <label class="resource-label">Hindrances</label>
+      {{> "systems/sentius-rpg/templates/actor/parts/actor-hindrances.hbs"}}
+    </section>
+
+    <section>
+      <label class="resource-label">Traits</label>
+      {{> "systems/sentius-rpg/templates/actor/parts/actor-traits.hbs"}}
+    </section>
+
+  </div>
+</section>

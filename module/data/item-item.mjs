@@ -8,8 +8,11 @@ export default class SentiusRPGItem extends SentiusRPGItemBase {
     const schema = super.defineSchema();
 
     // Break down roll formula into three independent fields
-    // schema.roll = new fields.SchemaField({
-    // })
+    schema.gear = new fields.SchemaField({
+      resourceDie: new fields.StringField({ initial: "d4" }),
+      resourceCurrentDie: new fields.StringField({ initial: "" }),
+      properties: new fields.StringField({ initial: "" })
+    })
 
     schema.formula = new fields.StringField({ blank: true });
 
@@ -18,8 +21,14 @@ export default class SentiusRPGItem extends SentiusRPGItemBase {
 
   prepareDerivedData() {
     // Build the formula dynamically using string interpolation
-    const roll = this.roll;
+    const gear = this.gear;
 
-    this.formula = `${roll.diceNum}${roll.diceSize}${roll.diceBonus}`
+    if (gear.resourceCurrentDie === '') {
+      this.gear.resourceCurrentDie = gear.resourceDie;
+    } else {
+      this.gear.resourceCurrentDie = gear.resourceCurrentDie;
+    }
+
+    this.formula = `${gear.resourceDie}`
   }
 }

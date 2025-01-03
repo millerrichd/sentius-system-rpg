@@ -1,49 +1,257 @@
-<ol class='items-list'>
-  {{#each spells as |spells spellLevel|}}
-    <li class='item flexrow items-header'>
-      <div class='item-name'>
-        {{localize 'SENTIUS_RPG.Item.Spell.SpellLVL' level=spellLevel}}
-      </div>
-      <div class='item-controls'>
-        <a
-          class='item-control item-create'
-          title='{{localize "DOCUMENT.Create" type='Spell'}}'
-          data-type='spell'
-          data-spell-level='{{spellLevel}}'
-        >
-          <i class='fas fa-plus'></i>
-          {{localize 'SENTIUS_RPG.Item.Spell.AddLVL' level=spellLevel}}
-        </a>
-      </div>
-    </li>
-    {{#each spells as |item id|}}
-      <li class='item flexrow' data-item-id='{{item._id}}'>
-        <div class='item-name flexrow'>
-          <div class='item-image'>
-            <a class='rollable' data-roll-type='item'><img
-                src='{{item.img}}'
-                title='{{item.name}}'
-                width='24'
-                height='24'
-              /></a>
+<h3>Spell Engeries: Actions</h3>
+<section>
+  <table>
+    <tr>
+      <th>Spell Energy</th>
+      <th>Abilities</th>
+      <th>Training</th>
+      <th width="108">Upgraded</th>
+      <th width="108">Standard</th>
+      <th width="108">Downgraded</th>
+      <th>Usage Ticks</th>
+    </tr>
+    {{#each system.spellActions as |spell key|}}
+    <tr>
+      <td class="align-left">
+        <label for="system.spellActions.{{key}}" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.spellActions key)}}">{{localize (lookup @root.config.spellActions key)}}</label>
+      </td>
+      <td class="align-center">
+        <label>[</label>
+        <label for="system.spellActions.{{key}}" class="resource-label flexsmall align-center" data-label="Value">{{spell.attr1}}</label>
+        <label>|</label>
+        <label for="system.spellActions.{{key}}" class="resource-label flexsmall align-center" data-label="Value">{{spell.attr2}}</label>
+        <label>]</label>
+        <br/>
+        <label for="system.spellActions.{{key}}" class="resource-label flexsmall align-center" data-label="Value">Max: {{spell.maxTrainingStatus}}</label>
+      </td>
+      <td class="align-center">
+        <select id="system.spellActions.{{key}}" class="training-select-actionspell" name="{{key}}">
+          <option value="untrained" {{#if (eq spell.trainingStatus "untrained")}}selected{{/if}}>Untrained</option>
+          <option value="apprentice" {{#if (eq spell.trainingStatus "apprentice")}}selected{{/if}}>Apprentice</option>
+          <option value="professional" {{#if (eq spell.trainingStatus "professional")}}selected{{/if}}>Professional</option>
+          <option value="expert" {{#if (eq spell.trainingStatus "expert")}}selected{{/if}}>Expert</option>
+          <option value="master" {{#if (eq spell.trainingStatus "master")}}selected{{/if}}>Master</option>
+          <option value="legendary" {{#if (eq spell.trainingStatus "legendary")}}selected{{/if}}>Legendary</option>
+        </select>
+      </td>
+      <td class="align-center">
+        <label for="system.spellActions.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{spell.dieUp}}+{{spell.totalUp}}" data-label="Value">
+          <div class="tooltip">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{spell.dieUp}}{{#if isNegUp}}{{else}}+{{/if}}{{spell.totalUp}}</span>
+            <span class="tooltiptext">
+              <span class="tooltip-label">Die:</span> {{spell.dieUp}}<br>
+              <span class="tooltip-label">Bonus:</span> {{spell.bonusUp}}<br>
+              <span class="tooltip-label">Hindrance Mod:</span> {{spell.hindranceMod}}<br>
+              <span class="tooltip-label">Trait Mod:</span> {{spell.traitMod}}
+            </span>
           </div>
-          <h4>{{item.name}}</h4>
-        </div>
-        <div class='item-controls'>
-          <a
-            class='item-control item-edit'
-            title='{{localize "DOCUMENT.Edit" type='spell'}}'
-          >
-            <i class='fas fa-edit'></i>
-          </a>
-          <a
-            class='item-control item-delete'
-            title='{{localize "DOCUMENT.Delete" type='spell'}}'
-          >
-            <i class='fas fa-trash'></i>
-          </a>
-        </div>
-      </li>
+        </label>
+      </td>
+      <td class="align-center">
+        <label for="system.spellActions.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{spell.dieBase}}+{{spell.totalBase}}" data-label="Value">
+          <div class="tooltip">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{spell.dieBase}}{{#if isNegBase}}{{else}}+{{/if}}{{spell.totalBase}}</span>
+            <span class="tooltiptext">
+              <span class="tooltip-label">Die:</span> {{spell.dieBase}}<br>
+              <span class="tooltip-label">Bonus:</span> {{spell.bonusBase}}<br>
+              <span class="tooltip-label">Hindrance Mod:</span> {{spell.hindranceMod}}<br>
+              <span class="tooltip-label">Trait Mod:</span> {{spell.traitMod}}
+            </span>
+          </div>
+        </label>
+      </td>
+      <td class="align-center">
+        <label for="system.spellActions.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{spell.dieDown}}+{{spell.totalDown}}" data-label="Value">
+          <div class="tooltip">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{spell.dieDown}}{{#if isNegDown}}{{else}}+{{/if}}{{spell.totalDown}}</span>
+            <span class="tooltiptext">
+              <span class="tooltip-label">Die:</span> {{spell.dieDown}}<br>
+              <span class="tooltip-label">Bonus:</span> {{spell.bonusDown}}<br>
+              <span class="tooltip-label">Hindrance Mod:</span> {{spell.hindranceMod}}<br>
+              <span class="tooltip-label">Trait Mod:</span> {{spell.traitMod}}
+            </span>
+          </div>
+        </label>
+      </td>
+      <td class="align-right">
+        <input type="checkbox" id="system.spellActions.{{key}}.tick" name="{{key}}" class="checkbox-selected resource-label flexsmall align-center" data-label="tickmark" {{#if spell.tickMark}}checked{{/if}}>
+      </td>
+    </tr>
     {{/each}}
-  {{/each}}
-</ol>
+  </table>
+</section>
+<br/>
+<h3>Spell Engeries: Powers</h3>
+<section>
+  <table>
+    <tr>
+      <th>Spell Energy</th>
+      <th>Abilities</th>
+      <th>Training</th>
+      <th width="108">Upgraded</th>
+      <th width="108">Standard</th>
+      <th width="108">Downgraded</th>
+      <th>Usage Ticks</th>
+    </tr>
+    {{#each system.spellPowers as |spell key|}}
+    <tr>
+      <td class="align-left">
+        <label for="system.spellPowers.{{key}}" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.spellPowers key)}}">{{localize (lookup @root.config.spellPowers key)}}</label>
+      </td>
+      <td class="align-center">
+        <label>[</label>
+        <label for="system.spellPowers.{{key}}" class="resource-label flexsmall align-center" data-label="Value">{{spell.attr1}}</label>
+        <label>|</label>
+        <label for="system.spellPowers.{{key}}" class="resource-label flexsmall align-center" data-label="Value">{{spell.attr2}}</label>
+        <label>]</label>
+        <br/>
+        <label for="system.spellPowers.{{key}}" class="resource-label flexsmall align-center" data-label="Value">Max: {{spell.maxTrainingStatus}}</label>
+      </td>
+      <td class="align-center">
+        <select id="system.spellPowers.{{key}}" class="training-select-powerspell" name="{{key}}">
+          <option value="untrained" {{#if (eq spell.trainingStatus "untrained")}}selected{{/if}}>Untrained</option>
+          <option value="apprentice" {{#if (eq spell.trainingStatus "apprentice")}}selected{{/if}}>Apprentice</option>
+          <option value="professional" {{#if (eq spell.trainingStatus "professional")}}selected{{/if}}>Professional</option>
+          <option value="expert" {{#if (eq spell.trainingStatus "expert")}}selected{{/if}}>Expert</option>
+          <option value="master" {{#if (eq spell.trainingStatus "master")}}selected{{/if}}>Master</option>
+          <option value="legendary" {{#if (eq spell.trainingStatus "legendary")}}selected{{/if}}>Legendary</option>
+        </select>
+      </td>
+      <td class="align-center">
+        <label for="system.spellPowers.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{spell.dieUp}}+{{spell.totalUp}}" data-label="Value">
+          <div class="tooltip">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{spell.dieUp}}{{#if isNegUp}}{{else}}+{{/if}}{{spell.totalUp}}</span>
+            <span class="tooltiptext">
+              <span class="tooltip-label">Die:</span> {{spell.dieUp}}<br>
+              <span class="tooltip-label">Bonus:</span> {{spell.bonusUp}}<br>
+              <span class="tooltip-label">Hindrance Mod:</span> {{spell.hindranceMod}}<br>
+              <span class="tooltip-label">Trait Mod:</span> {{spell.traitMod}}
+            </span>
+          </div>
+        </label>
+      </td>
+      <td class="align-center">
+        <label for="system.spellPowers.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{spell.dieBase}}+{{spell.totalBase}}" data-label="Value">
+          <div class="tooltip">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{spell.dieBase}}{{#if isNegBase}}{{else}}+{{/if}}{{spell.totalBase}}</span>
+            <span class="tooltiptext">
+              <span class="tooltip-label">Die:</span> {{spell.dieBase}}<br>
+              <span class="tooltip-label">Bonus:</span> {{spell.bonusBase}}<br>
+              <span class="tooltip-label">Hindrance Mod:</span> {{spell.hindranceMod}}<br>
+              <span class="tooltip-label">Trait Mod:</span> {{spell.traitMod}}
+            </span>
+          </div>
+        </label>
+      </td>
+      <td class="align-center">
+        <label for="system.spellPowers.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{spell.dieDown}}+{{spell.totalDown}}" data-label="Value">
+          <div class="tooltip">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{spell.dieDown}}{{#if isNegDown}}{{else}}+{{/if}}{{spell.totalDown}}</span>
+            <span class="tooltiptext">
+              <span class="tooltip-label">Die:</span> {{spell.dieDown}}<br>
+              <span class="tooltip-label">Bonus:</span> {{spell.bonusDown}}<br>
+              <span class="tooltip-label">Hindrance Mod:</span> {{spell.hindranceMod}}<br>
+              <span class="tooltip-label">Trait Mod:</span> {{spell.traitMod}}
+            </span>
+          </div>
+        </label>
+      </td>
+      <td class="align-right">
+        <input type="checkbox" id="system.spellPowers.{{key}}.tick" name="{{key}}" class="checkbox-selected resource-label flexsmall align-center" data-label="tickmark" {{#if spell.tickMark}}checked{{/if}}>
+      </td>
+    </tr>
+    {{/each}}
+  </table>
+</section>
+<br/>
+<h3>Spell Engeries: Targets</h3>
+<section>
+  <table>
+    <tr>
+      <th>Spell Energy</th>
+      <th>Abilities</th>
+      <th>Training</th>
+      <th width="108">Upgraded</th>
+      <th width="108">Standard</th>
+      <th width="108">Downgraded</th>
+      <th>Usage Ticks</th>
+    </tr>
+    {{#each system.spellTargets as |spell key|}}
+    <tr>
+      <td class="align-left">
+        <label for="system.spellTargets.{{key}}" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.spellTargets key)}}">{{localize (lookup @root.config.spellTargets key)}}</label>
+      </td>
+      <td class="align-center">
+        <label>[</label>
+        <label for="system.spellTargets.{{key}}" class="resource-label flexsmall align-center" data-label="Value">{{spell.attr1}}</label>
+        <label>|</label>
+        <label for="system.spellTargets.{{key}}" class="resource-label flexsmall align-center" data-label="Value">{{spell.attr2}}</label>
+        <label>]</label>
+        <br/>
+        <label for="system.spellTargets.{{key}}" class="resource-label flexsmall align-center" data-label="Value">Max: {{spell.maxTrainingStatus}}</label>
+      </td>
+      <td class="align-center">
+        <select id="system.spellTargets.{{key}}" class="training-select-targetspell" name="{{key}}">
+          <option value="untrained" {{#if (eq spell.trainingStatus "untrained")}}selected{{/if}}>Untrained</option>
+          <option value="apprentice" {{#if (eq spell.trainingStatus "apprentice")}}selected{{/if}}>Apprentice</option>
+          <option value="professional" {{#if (eq spell.trainingStatus "professional")}}selected{{/if}}>Professional</option>
+          <option value="expert" {{#if (eq spell.trainingStatus "expert")}}selected{{/if}}>Expert</option>
+          <option value="master" {{#if (eq spell.trainingStatus "master")}}selected{{/if}}>Master</option>
+          <option value="legendary" {{#if (eq spell.trainingStatus "legendary")}}selected{{/if}}>Legendary</option>
+        </select>
+      </td>
+      <td class="align-center">
+        <label for="system.spellTargets.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{spell.dieUp}}+{{spell.totalUp}}" data-label="Value">
+          <div class="tooltip">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{spell.dieUp}}{{#if isNegUp}}{{else}}+{{/if}}{{spell.totalUp}}</span>
+            <span class="tooltiptext">
+              <span class="tooltip-label">Die:</span> {{spell.dieUp}}<br>
+              <span class="tooltip-label">Bonus:</span> {{spell.bonusUp}}<br>
+              <span class="tooltip-label">Hindrance Mod:</span> {{spell.hindranceMod}}<br>
+              <span class="tooltip-label">Trait Mod:</span> {{spell.traitMod}}
+            </span>
+          </div>
+        </label>
+      </td>
+      <td class="align-center">
+        <label for="system.spellTargets.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{spell.dieBase}}+{{spell.totalBase}}" data-label="Value">
+          <div class="tooltip">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{spell.dieBase}}{{#if isNegBase}}{{else}}+{{/if}}{{spell.totalBase}}</span>
+            <span class="tooltiptext">
+              <span class="tooltip-label">Die:</span> {{spell.dieBase}}<br>
+              <span class="tooltip-label">Bonus:</span> {{spell.bonusBase}}<br>
+              <span class="tooltip-label">Hindrance Mod:</span> {{spell.hindranceMod}}<br>
+              <span class="tooltip-label">Trait Mod:</span> {{spell.traitMod}}
+            </span>
+          </div>
+        </label>
+      </td>
+      <td class="align-center">
+        <label for="system.spellTargets.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{spell.dieDown}}+{{spell.totalDown}}" data-label="Value">
+          <div class="tooltip">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{spell.dieDown}}{{#if isNegDown}}{{else}}+{{/if}}{{spell.totalDown}}</span>
+            <span class="tooltiptext">
+              <span class="tooltip-label">Die:</span> {{spell.dieDown}}<br>
+              <span class="tooltip-label">Bonus:</span> {{spell.bonusDown}}<br>
+              <span class="tooltip-label">Hindrance Mod:</span> {{spell.hindranceMod}}<br>
+              <span class="tooltip-label">Trait Mod:</span> {{spell.traitMod}}
+            </span>
+          </div>
+        </label>
+      </td>
+      <td class="align-right">
+        <input type="checkbox" id="system.spellTargets.{{key}}.tick" name="{{key}}" class="checkbox-selected resource-label flexsmall align-center" data-label="tickmark" {{#if spell.tickMark}}checked{{/if}}>
+      </td>
+    </tr>
+    {{/each}}
+  </table>
+</section>

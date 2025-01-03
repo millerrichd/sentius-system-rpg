@@ -20,6 +20,8 @@
         <label>|</label>
         <label for="system.skills.{{key}}" class="resource-label flexsmall align-center" data-label="Value">{{skill.attr2}}</label>
         <label>]</label>
+        <br/>
+        <label for="system.skills.{{key}}" class="resource-label flexsmall align-center" data-label="Value">Max: {{skill.maxTrainingStatus}}</label>
       </td>
       <td class="align-center">
         <select id="system.skills.{{key}}" class="training-select" name="{{key}}">
@@ -32,9 +34,10 @@
         </select>
       </td>
       <td class="align-center">
-        <label for="system.skills.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{skill.dieUp}}+{{skill.bonusUp}}+{{skill.hindranceMod}}+{{skill.traitMod}}" data-label="Value">
+        <label for="system.skills.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{skill.dieUp}}+{{skill.totalUp}}" data-label="Value">
           <div class="tooltip">
-            <img src="systems/sentius-rpg/assets/d12.webp" class="img-adjusters increase-ability" data-ability="{{key}}">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{skill.dieUp}}{{#if isNegUp}}{{else}}+{{/if}}{{skill.totalUp}}</span>
             <span class="tooltiptext">
               <span class="tooltip-label">Die:</span> {{skill.dieUp}}<br>
               <span class="tooltip-label">Bonus:</span> {{skill.bonusUp}}<br>
@@ -45,9 +48,10 @@
         </label>
       </td>
       <td class="align-center">
-        <label for="system.skills.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{skill.dieBase}}+{{skill.bonusBase}}+{{skill.hindranceMod}}+{{skill.traitMod}}" data-label="Value">
+        <label for="system.skills.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{skill.dieBase}}+{{skill.totalBase}}" data-label="Value">
           <div class="tooltip">
-            <img src="systems/sentius-rpg/assets/d12.webp" class="img-adjusters increase-ability" data-ability="{{key}}">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{skill.dieBase}}{{#if isNegBase}}{{else}}+{{/if}}{{skill.totalBase}}</span>
             <span class="tooltiptext">
               <span class="tooltip-label">Die:</span> {{skill.dieBase}}<br>
               <span class="tooltip-label">Bonus:</span> {{skill.bonusBase}}<br>
@@ -58,9 +62,10 @@
         </label>
       </td>
       <td class="align-center">
-        <label for="system.skills.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{skill.dieDown}}+{{skill.bonusDown}}+{{skill.hindranceMod}}+{{skill.traitMod}}" data-label="Value">
+        <label for="system.skills.{{key}}" class="rollable resource-label flexsmall align-center" data-roll="{{skill.dieDown}}+{{skill.totalDown}}" data-label="Value">
           <div class="tooltip">
-            <img src="systems/sentius-rpg/assets/d12.webp" class="img-adjusters increase-ability" data-ability="{{key}}">
+            <img src="systems/sentius-rpg/assets/d12.webp" class="die-icon" data-ability="{{key}}">
+            <span class="die-word">{{skill.dieDown}}{{#if isNegDown}}{{else}}+{{/if}}{{skill.totalDown}}</span>
             <span class="tooltiptext">
               <span class="tooltip-label">Die:</span> {{skill.dieDown}}<br>
               <span class="tooltip-label">Bonus:</span> {{skill.bonusDown}}<br>

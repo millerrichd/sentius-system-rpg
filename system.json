@@ -36,28 +36,88 @@
   ],
   "packs": [
     {
-        "name": "traits",
-        "label": "Traits",
-        "path": "packs/traits",
-        "type": "Item",
-        "system": "sentius-rpg",
-        "ownership": {
-            "PLAYER": "LIMITED",
-            "ASSISTANT": "OWNER"
-        },
-        "flags": {}
+      "name": "traits",
+      "label": "Traits",
+      "path": "packs/traits",
+      "type": "Item",
+      "system": "sentius-rpg",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
       },
-      {
-        "name": "hinddrances",
-        "label": "Hindrances",
-        "path": "packs/hindrances",
-        "type": "Item",
-        "system": "sentius-rpg",
-        "ownership": {
-            "PLAYER": "LIMITED",
-            "ASSISTANT": "OWNER"
-        },
-        "flags": {}
+      "flags": {}
+    },
+    {
+      "name": "hinddrances",
+      "label": "Hindrances",
+      "path": "packs/hindrances",
+      "type": "Item",
+      "system": "sentius-rpg",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "weapons",
+      "label": "Weapons",
+      "path": "packs/weapons",
+      "type": "Item",
+      "system": "sentius-rpg",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "armors",
+      "label": "Armors",
+      "path": "packs/armors",
+      "type": "Item",
+      "system": "sentius-rpg",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "gear",
+      "label": "Gear",
+      "path": "packs/gear",
+      "type": "Item",
+      "system": "sentius-rpg",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "power-armors",
+      "label": "Power Armors",
+      "path": "packs/power-armors",
+      "type": "Item",
+      "system": "sentius-rpg",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "cybernetics",
+      "label": "Cybernetics",
+      "path": "packs/cybernetics",
+      "type": "Item",
+      "system": "sentius-rpg",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
     }
   ],
   "packFolders": [],
