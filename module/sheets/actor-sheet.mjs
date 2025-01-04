@@ -288,6 +288,9 @@ export class SentiusRPGActorSheet extends ActorSheet {
     html.on('change', '.radio-selected-them-tt', this._onThemTTRadio.bind(this));
     html.on('change', '.radio-selected-there-tt', this._onThereTTRadio.bind(this));
     html.on('change', '.radio-selected-you-yt', this._onYouYTRadio.bind(this));
+
+    //TEST
+    html.on('click', '.execute', this._onTest.bind(this));
   }
 
   /**
@@ -1352,4 +1355,37 @@ export class SentiusRPGActorSheet extends ActorSheet {
     });
   }
 
+  async _onTest(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+    console.log("DATA", data);
+    console.log("DATA ICON", data.icon);
+    console.log("DATA ROW", data.table);
+    console.log("DATA KEY", data.key);
+
+    const icon = document.getElementById(data.icon);
+    const row = document.getElementById(data.table);
+    const key = data.key;
+    
+    const hideshow = this.object.system.hideShowRow[key] === 'none' ? 'table-row' : 'none';
+    const rotate = this.object.system.rotateTracking[key] === 'fa-caret-down' ? 'fa-caret-right' : 'fa-caret-down';
+    console.log("ROTATE", rotate);
+    console.log("HIDE", hideshow);
+    await this.actor.update({
+      [`system.rotateTracking.${key}`]: rotate,
+      [`system.hideShowRow.${key}`]: hideshow
+    })
+  }
 }
+
+
+
+
+// function rotateIcon(iconRowID) {
+//   const icon = document.getElementById(iconRowID);
+//   icon.style.transform = icon.style.transform === 'rotate(90deg)' ? 'rotate(0deg)' : 'rotate(90deg)';
+// }
+// function toggleRow(rowId) {
+//   const row = document.getElementById(rowId);
+//   row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+// } 

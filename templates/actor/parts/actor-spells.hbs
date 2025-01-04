@@ -21,7 +21,7 @@
   <table>
     <tr>
       <th>Selected Component</th>
-      <th>Spell Energy</th>
+      <th width="80">Spell Energy</th>
       <th>Abilities</th>
       <th>Training</th>
       <th width="108">Upgraded</th>
@@ -35,9 +35,10 @@
         <input type="radio" id="system.spellActions.{{key}}.selected" name="spellActionsSelected" class="radio-selected-action" data-label="{{key}}" {{#if (eq key ../system.spellWordsCost.spellActionWord)}}checked{{/if}}>
       </td>
       <td class="align-left">
-        <div onclick="execute('icon-row-{{key}}','table-row-{{key}}')">
+        {{!-- <div onclick="execute('icon-row-{{key}}','table-row-{{key}}')"> --}}
+        <div class="execute" data-icon="icon-row-{{key}}" data-table="table-row-{{key}}" data-key="{{key}}">
           <label for="system.spellActions.{{key}}" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.spellActions key)}}">{{localize (lookup @root.config.spellActions key)}}</label>
-          <i id="icon-row-{{key}}" class="fa fa-caret-right"></i>
+          <i id="icon-row-{{key}}" class="fa {{lookup ../system.rotateTracking key}}"></i>
         </div>
       </td>
       <td class="align-center">
@@ -105,7 +106,7 @@
         <input type="checkbox" id="system.spellActions.{{key}}.tick" name="{{key}}" class="checkbox-selected resource-label flexsmall align-center" data-label="tickmark" {{#if spell.tickMark}}checked{{/if}}>
       </td>
     </tr>
-    <tr id="table-row-{{key}}" style="display: none;">
+    <tr id="table-row-{{key}}" style="display: {{lookup ../system.hideShowRow key}};">
       <td></td>
       <td colspan="7">
         {{#if (eq key "armor")}}
@@ -187,7 +188,7 @@
   <table>
     <tr>
       <th>Selected Component</th>
-      <th>Spell Energy</th>
+      <th width="80">Spell Energy</th>
       <th>Abilities</th>
       <th>Training</th>
       <th width="108">Upgraded</th>
@@ -404,7 +405,7 @@
   <table>
     <tr>
       <th>Selected Component</th>
-      <th>Spell Energy</th>
+      <th width="80">Spell Energy</th>
       <th>Abilities</th>
       <th>Training</th>
       <th width="108">Upgraded</th>
@@ -527,7 +528,7 @@
     {{/each}}
   </table>
 </section>
-
+{{!-- 
 <script>
   function execute(iconRowID, tableRowId) {
     console.log("HERE EXECUTE", iconRowID, tableRowId);
@@ -542,4 +543,4 @@
     const row = document.getElementById(rowId);
     row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
   } 
-</script>
+</script> --}}

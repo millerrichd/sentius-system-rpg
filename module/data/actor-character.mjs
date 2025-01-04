@@ -403,10 +403,80 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
       spellTargetTotalCost: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0}),
       spellCompleteTotalCost: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0}),
       spellCompleteTotalMana: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0}),
-      spellCompleteTotalMarkers: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0}),
+      spellCompleteTotalMarkers: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0})
     });
 
-    // I need to set all the different abilties for the different skills
+    // Rotating the Caret
+    schema.rotateTracking = new fields.SchemaField({
+      armor: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      create: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      destroy: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      repair: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      shield: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      transform: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      banish: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      control: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      summon: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      air: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      animal: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      dark: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      earth: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      fire: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      force: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      light: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      plant: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      water: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      ash: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      fissure: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      lava: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      mist: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      mud: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      steam: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      angelic: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      demonic: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      spirit: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      it: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      me: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      them: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      there: new fields.StringField({ required: true, initial: "fa-caret-right" }),
+      you: new fields.StringField({ required: true, initial: "fa-caret-right" })
+    }),
+    // Hide/Show Table Row
+    schema.hideShowRow = new fields.SchemaField({
+      armor: new fields.StringField({ required: true, initial: "none" }),
+      create: new fields.StringField({ required: true, initial: "none" }),
+      destroy: new fields.StringField({ required: true, initial: "none" }),
+      repair: new fields.StringField({ required: true, initial: "none" }),
+      shield: new fields.StringField({ required: true, initial: "none" }),
+      transform: new fields.StringField({ required: true, initial: "none" }),
+      banish: new fields.StringField({ required: true, initial: "none" }),
+      control: new fields.StringField({ required: true, initial: "none" }),
+      summon: new fields.StringField({ required: true, initial: "none" }),
+      air: new fields.StringField({ required: true, initial: "none" }),
+      animal: new fields.StringField({ required: true, initial: "none" }),
+      dark: new fields.StringField({ required: true, initial: "none" }),
+      earth: new fields.StringField({ required: true, initial: "none" }),
+      fire: new fields.StringField({ required: true, initial: "none" }),
+      force: new fields.StringField({ required: true, initial: "none" }),
+      light: new fields.StringField({ required: true, initial: "none" }),
+      plant: new fields.StringField({ required: true, initial: "none" }),
+      water: new fields.StringField({ required: true, initial: "none" }),
+      ash: new fields.StringField({ required: true, initial: "none" }),
+      fissure: new fields.StringField({ required: true, initial: "none" }),
+      lava: new fields.StringField({ required: true, initial: "none" }),
+      mist: new fields.StringField({ required: true, initial: "none" }),
+      mud: new fields.StringField({ required: true, initial: "none" }),
+      steam: new fields.StringField({ required: true, initial: "none" }),
+      angelic: new fields.StringField({ required: true, initial: "none" }),
+      demonic: new fields.StringField({ required: true, initial: "none" }),
+      spirit: new fields.StringField({ required: true, initial: "none" }),
+      it: new fields.StringField({ required: true, initial: "none" }),
+      me: new fields.StringField({ required: true, initial: "none" }),
+      them: new fields.StringField({ required: true, initial: "none" }),
+      there: new fields.StringField({ required: true, initial: "none" }),
+      you: new fields.StringField({ required: true, initial: "none" })
+    })
+
     return schema;
   }
 
@@ -616,6 +686,9 @@ export default class SentiusRPGCharacter extends SentiusRPGActorBase {
     this.spellWordsCost.spellCompleteTotalCost = completeTotal;
     this.spellWordsCost.spellCompleteTotalMana = Math.floor(completeTotal / 12);
     this.spellWordsCost.spellCompleteTotalMarkers = Math.floor(completeTotal / 6);
+
+
+
 
     // CONFIGURE HINDRANCES FOR DERVIVED ABILITIES
     let cyberneticrejection = 0;
