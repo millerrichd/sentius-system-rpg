@@ -188,6 +188,7 @@ export class SentiusRPGActor extends Actor {
       perception: 0,
       performance: 0,
       persuasion: 0,
+      spellenergyrejection: 0,
       stealth: 0
     }
 
@@ -212,6 +213,44 @@ export class SentiusRPGActor extends Actor {
     }
     //Spell Energy Rejection Hindrance
     if(attributes.spellenergyrejection) {
+      hindrance.spellenergyrejection = Math.min(attributes.spellenergyrejection.spellenergy.value, hindrance.spellenergyrejection);
+      console.log("SPELL ENERGY REJECTION", hindrance.spellenergyrejection);
+      for (let prop in spellActions) {
+        if (Object.prototype.hasOwnProperty.call(spellActions, prop)) {
+          // console.log("PROCESSING", prop, skills[prop].attr1, skills[prop].attr2);
+          spellActions[prop].hindranceMod = hindrance.spellenergyrejection;
+          spellActions[prop].totalUp = spellActions[prop].totalUp + hindrance.spellenergyrejection;
+          spellActions[prop].totalDown = spellActions[prop].totalDown + hindrance.spellenergyrejection;
+          spellActions[prop].totalBase = spellActions[prop].totalBase + hindrance.spellenergyrejection;
+          spellActions[prop].isNegUp = (spellActions[prop].totalUp + hindrance.spellenergyrejection) < 0;
+          spellActions[prop].isNegDown = (spellActions[prop].totalDown + hindrance.spellenergyrejection) < 0;
+          spellActions[prop].isNegBase = (spellActions[prop].totalBase + hindrance.spellenergyrejection) < 0;
+        }
+      }
+      for (let prop in spellPowers) {
+        if (Object.prototype.hasOwnProperty.call(spellPowers, prop)) {
+          // console.log("PROCESSING", prop, skills[prop].attr1, skills[prop].attr2);
+          spellPowers[prop].hindranceMod = hindrance.spellenergyrejection;
+          spellPowers[prop].totalUp = spellPowers[prop].totalUp + hindrance.spellenergyrejection;
+          spellPowers[prop].totalDown = spellPowers[prop].totalDown + hindrance.spellenergyrejection;
+          spellPowers[prop].totalBase = spellPowers[prop].totalBase + hindrance.spellenergyrejection;
+          spellPowers[prop].isNegUp = (spellPowers[prop].totalUp + hindrance.spellenergyrejection) < 0;
+          spellPowers[prop].isNegDown = (spellPowers[prop].totalDown + hindrance.spellenergyrejection) < 0;
+          spellPowers[prop].isNegBase = (spellPowers[prop].totalBase + hindrance.spellenergyrejection) < 0;
+        }
+      }
+      for (let prop in spellTargets) {
+        if (Object.prototype.hasOwnProperty.call(spellTargets, prop)) {
+          // console.log("PROCESSING", prop, skills[prop].attr1, skills[prop].attr2);
+          spellTargets[prop].hindranceMod = hindrance.spellenergyrejection;
+          spellTargets[prop].totalUp = spellTargets[prop].totalUp + hindrance.spellenergyrejection;
+          spellTargets[prop].totalDown = spellTargets[prop].totalDown + hindrance.spellenergyrejection;
+          spellTargets[prop].totalBase = spellTargets[prop].totalBase + hindrance.spellenergyrejection;
+          spellTargets[prop].isNegUp = (spellTargets[prop].totalUp + hindrance.spellenergyrejection) < 0;
+          spellTargets[prop].isNegDown = (spellTargets[prop].totalDown + hindrance.spellenergyrejection) < 0;
+          spellTargets[prop].isNegBase = (spellTargets[prop].totalBase + hindrance.spellenergyrejection) < 0;
+        }
+      }
     }
     //TongueTied Hindrance
     if(attributes.tonguetied) {

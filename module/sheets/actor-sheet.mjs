@@ -224,6 +224,70 @@ export class SentiusRPGActorSheet extends ActorSheet {
     // Pool increase/decrease.
     html.on('click', '.increase-pool', this._onIncreasePool.bind(this));
     html.on('click', '.decrease-pool', this._onDecreasePool.bind(this));
+    // RADIO BOXES OF SPELLS
+    // ACTIONS
+    html.on('change', '.radio-selected-action', this._onSpellEnergyActionRadio.bind(this));
+    html.on('change', '.radio-selected-armor-ar', this._onArmorARRadio.bind(this));
+    html.on('change', '.radio-selected-armor-at', this._onArmorATRadio.bind(this));
+    html.on('change', '.radio-selected-armor-ad', this._onArmorADRadio.bind(this));
+    html.on('change', '.radio-selected-create-cs', this._onCreateCSRadio.bind(this));
+    html.on('change', '.radio-selected-create-cn', this._onCreateCNRadio.bind(this));
+    html.on('change', '.radio-selected-create-cd', this._onCreateCDRadio.bind(this));
+    html.on('change', '.radio-selected-destroy-dn', this._onDestroyDNRadio.bind(this));
+    html.on('change', '.radio-selected-destroy-dt', this._onDestroyDTRadio.bind(this));
+    html.on('change', '.radio-selected-destroy-dr', this._onDestroyDRRadio.bind(this));
+    html.on('change', '.radio-selected-repair-rn', this._onRepairHLRadio.bind(this));
+    html.on('change', '.radio-selected-shield-sr', this._onShieldSRRadio.bind(this));
+    html.on('change', '.radio-selected-shield-sd', this._onShieldSDRadio.bind(this));
+    html.on('change', '.radio-selected-transform-ts', this._onTransformTSRadio.bind(this));
+    html.on('change', '.radio-selected-transform-td', this._onTransformTDRadio.bind(this));
+    html.on('change', '.radio-selected-banish-br', this._onBanishBRRadio.bind(this));
+    html.on('change', '.radio-selected-banish-bs', this._onBanishBSRadio.bind(this));
+    html.on('change', '.radio-selected-control-cr', this._onControlCRRadio.bind(this));
+    html.on('change', '.radio-selected-control-cd', this._onControlCDRadio.bind(this));
+    html.on('change', '.radio-selected-summon-ss', this._onSummonSSRadio.bind(this));
+    html.on('change', '.radio-selected-summon-sn', this._onSummonSNRadio.bind(this));
+    html.on('change', '.radio-selected-summon-sd', this._onSummonSDRadio.bind(this));
+    html.on('change', '.radio-selected-summon-sdd', this._onSummonSDDRadio.bind(this));
+
+    // POWERS
+    html.on('change', '.radio-selected-power', this._onSpellEnergyPowerRadio.bind(this));
+    html.on('change', '.radio-selected-air-ad', this._onAirADRadio.bind(this));
+    html.on('change', '.radio-selected-animal-as', this._onAnimalASRadio.bind(this));
+    html.on('change', '.radio-selected-animal-ad', this._onAnimalADRadio.bind(this));
+    html.on('change', '.radio-selected-dark-df', this._onDarkDFRadio.bind(this));
+    html.on('change', '.radio-selected-dark-dd', this._onDarkDDRadio.bind(this));
+    html.on('change', '.radio-selected-earth-ed', this._onEarthEDRadio.bind(this));
+    html.on('change', '.radio-selected-fire-fd', this._onFireFDRadio.bind(this));
+    html.on('change', '.radio-selected-force-fd', this._onForceFDRadio.bind(this));
+    html.on('change', '.radio-selected-light-lf', this._onLightLFRadio.bind(this));
+    html.on('change', '.radio-selected-light-ld', this._onLightLDRadio.bind(this));
+    html.on('change', '.radio-selected-plant-ps', this._onPlantPSRadio.bind(this));
+    html.on('change', '.radio-selected-plant-pd', this._onPlantPDRadio.bind(this));
+    html.on('change', '.radio-selected-water-wd', this._onWaterWDRadio.bind(this));
+    html.on('change', '.radio-selected-ash-ad', this._onAshADRadio.bind(this));
+    html.on('change', '.radio-selected-ash-ac', this._onAshACRadio.bind(this));
+    html.on('change', '.radio-selected-fissure-fd', this._onFissureFDRadio.bind(this));
+    html.on('change', '.radio-selected-fissure-fw', this._onFissureFWRadio.bind(this));
+    html.on('change', '.radio-selected-lava-lw', this._onLavaLWRadio.bind(this));
+    html.on('change', '.radio-selected-lava-ld', this._onLavaLDRadio.bind(this));
+    html.on('change', '.radio-selected-mist-md', this._onMistMDRadio.bind(this));
+    html.on('change', '.radio-selected-mist-mc', this._onMistMCRadio.bind(this));
+    html.on('change', '.radio-selected-mud-md', this._onMudMDRadio.bind(this));
+    html.on('change', '.radio-selected-mud-mr', this._onMudMRRadio.bind(this));
+    html.on('change', '.radio-selected-steam-sd', this._onSteamSDRadio.bind(this));
+    html.on('change', '.radio-selected-steam-sc', this._onSteamSCRadio.bind(this));
+    html.on('change', '.radio-selected-angelic-ad', this._onAngelicADRadio.bind(this));
+    html.on('change', '.radio-selected-demonic-dd', this._onDemonicDDRadio.bind(this));
+    html.on('change', '.radio-selected-spirit-sd', this._onSpiritSDRadio.bind(this));
+
+    // TARGETS
+    html.on('change', '.radio-selected-target', this._onSpellEnergyTargetRadio.bind(this));
+    html.on('change', '.radio-selected-it-it', this._onItITRadio.bind(this));
+    html.on('change', '.radio-selected-me-mt', this._onMeMTRadio.bind(this));
+    html.on('change', '.radio-selected-them-tt', this._onThemTTRadio.bind(this));
+    html.on('change', '.radio-selected-there-tt', this._onThereTTRadio.bind(this));
+    html.on('change', '.radio-selected-you-yt', this._onYouYTRadio.bind(this));
   }
 
   /**
@@ -708,7 +772,6 @@ export class SentiusRPGActorSheet extends ActorSheet {
     });
   }
 
-
   async _onTickMark(event) {
     event.preventDefault();
     const element = event.currentTarget;
@@ -786,4 +849,507 @@ export class SentiusRPGActorSheet extends ActorSheet {
       [`system.derivedAbilitiesPool.${abilityName}.current`]: newCurrent
     });
   }
+
+  async _onSpellEnergyActionRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+    console.log("Spell Radio", event);
+    console.log("DATA", data);
+    console.log("Spell Radio", event.currentTarget.id);
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionWord`]: data.label
+    });
+  }
+  async _onSpellEnergyPowerRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+    console.log("Spell Radio", event);
+    console.log("DATA", data);
+    console.log("Spell Radio", event.currentTarget.id);
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerWord`]: data.label
+    });
+  }
+  async _onSpellEnergyTargetRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+    console.log("Spell Radio", event);
+    console.log("DATA", data);
+    console.log("Spell Radio", event.currentTarget.id);
+    await this.actor.update({
+      [`system.spellWordsCost.spellTargetWord`]: data.label
+    });
+  }
+
+  async _onArmorARRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionArmor.costArmorRating`]: data.cost,
+    });
+  }
+  async _onArmorATRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionArmor.costArmorType`]: data.cost,
+    });
+  }
+  async _onArmorADRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionArmor.costArmorDuration`]: data.cost,
+    });
+  }
+
+  async _onCreateCSRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionCreate.costCreateSize`]: data.cost,
+    });
+  }
+  async _onCreateCNRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionCreate.costCreateNumber`]: data.cost,
+    });
+  }
+  async _onCreateCDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionCreate.costCreateDuration`]: data.cost,
+    });
+  }
+
+  async _onDestroyDNRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionDestroy.costDestroyNumber`]: data.cost,
+    });
+
+  }
+  async _onDestroyDTRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionDestroy.costDestroyType`]: data.cost,
+    });
+
+  }
+  async _onDestroyDRRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionDestroy.costDamageResistance`]: data.cost,
+    });
+
+  }
+
+  async _onRepairHLRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionRepair.costRepairNumber`]: data.cost,
+    });
+  }
+
+  async _onShieldSRRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionShield.costShieldResistance`]: data.cost,
+    });
+  }
+  async _onShieldSDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionShield.costShieldDuration`]: data.cost,
+    });
+  }
+
+  async _onTransformTSRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionTransform.costTransformSize`]: data.cost,
+    });
+  }
+  async _onTransformTDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionTransform.costTransformDuration`]: data.cost,
+    });
+  }
+
+  async _onBanishBRRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionBanish.costBanishResistance`]: data.cost,
+    });
+  }
+  async _onBanishBSRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionBanish.costBanishSize`]: data.cost,
+    });
+  }
+
+  async _onControlCRRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionControl.costControlResistance`]: data.cost,
+    });
+  }
+  async _onControlCDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionControl.costControlDuration`]: data.cost,
+    });
+  }
+
+  async _onSummonSSRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionSummon.costSummonSize`]: data.cost,
+    });
+  }
+  async _onSummonSNRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionSummon.costSummonNumber`]: data.cost,
+    });
+  }
+  async _onSummonSDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionSummon.costSummonDuration`]: data.cost,
+    });
+  }
+  async _onSummonSDDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellActionSummon.costSummonDisappears`]: data.cost,
+    });
+  }
+
+  async _onAirADRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerAir.costAirDamageDie`]: data.cost,
+    });
+  }
+
+  async _onAnimalASRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerAnimal.costAnimalShape`]: data.cost,
+    });
+  }
+  async _onAnimalADRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerAnimal.costAnimalDamageDie`]: data.cost,
+    });
+  }
+
+  async _onDarkDFRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerDark.costDarkFieldRange`]: data.cost,
+    });
+  }
+  async _onDarkDDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerDark.costDarkDamageDie`]: data.cost,
+    });
+  }
+
+  async _onEarthEDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerEarth.costEarthDamageDie`]: data.cost,
+    });
+  }
+
+  async _onFireFDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerFire.costFireDamageDie`]: data.cost,
+    });
+  }
+
+  async _onForceFDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerForce.costForceDamageDie`]: data.cost,
+    });
+  }
+
+  async _onLightLFRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerLight.costLightFieldRange`]: data.cost,
+    });
+  }
+  async _onLightLDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerLight.costLightDamageDie`]: data.cost,
+    });
+  }
+
+  async _onPlantPSRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerPlant.costPlantShape`]: data.cost,
+    });
+  }
+  async _onPlantPDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerPlant.costPlantDamageDie`]: data.cost,
+    });
+  }
+
+  async _onWaterWDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerWater.costWaterDamageDie`]: data.cost,
+    });
+  }
+
+  async _onAshADRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerAsh.costAshDamageDie`]: data.cost,
+    });
+  }
+  async _onAshACRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerAsh.costAshCover`]: data.cost,
+    });
+  }
+
+  async _onFissureFDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerFissure.costFissureDamageDie`]: data.cost,
+    });
+  }
+  async _onFissureFWRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerFissure.costFissureWeaken`]: data.cost,
+    });
+  }
+
+  async _onLavaLWRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerLava.costLavaWeaken`]: data.cost,
+    });
+  }
+  async _onLavaLDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerLava.costLavaDamageDie`]: data.cost,
+    });
+  }
+
+  async _onMistMDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerMist.costMistDamageDie`]: data.cost,
+    });
+  }
+  async _onMistMCRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerMist.costMistCover`]: data.cost,
+    });
+  }
+
+  async _onMudMDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerMud.costMudDamageDie`]: data.cost,
+    });
+  }
+  async _onMudMRRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerMud.costMudReduceSpeed`]: data.cost,
+    });
+  }
+
+  async _onSteamSDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerSteam.costSteamDamageDie`]: data.cost,
+    });
+  }
+  async _onSteamSCRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerSteam.costSteamCover`]: data.cost,
+    });
+  }
+
+  async _onAngelicADRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerAngelic.costAngelicDamageDie`]: data.cost,
+    });
+  }
+
+  async _onDemonicDDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerDemonic.costDemonicDamageDie`]: data.cost,
+    });
+  }
+
+  async _onSpiritSDRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerSpirit.costSpiritDamageDie`]: data.cost,
+    });
+  }
+
+  async _onItITRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerIt.costItTarget`]: data.cost,
+    });
+  }
+  async _onMeMTRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerMe.costMeTarget`]: data.cost,
+    });
+  }
+  async _onThemTTRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerThem.costThemTarget`]: data.cost,
+    });
+  }
+  async _onThereTTRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerThere.costThereTarget`]: data.cost,
+    });
+  }
+  async _onYouYTRadio(event) {
+    event.preventDefault();
+    const data = event.currentTarget.dataset
+ 
+    await this.actor.update({
+      [`system.spellWordsCost.spellPowerYou.costYouTarget`]: data.cost,
+    });
+  }
+
 }

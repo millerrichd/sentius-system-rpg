@@ -1,7 +1,26 @@
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Power</th>
+      <th>Target</th>
+      <th>Total (Markers/Mana)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="align-center">{{ system.spellWordsCost.spellActionWord }} : {{ system.spellWordsCost.spellActionTotalCost }}</td>
+      <td class="align-center">{{ system.spellWordsCost.spellPowerWord }} : {{ system.spellWordsCost.spellPowerTotalCost }}</td>
+      <td class="align-center">{{ system.spellWordsCost.spellTargetWord }} : {{ system.spellWordsCost.spellTargetTotalCost }}</td>
+      <td class="align-center">{{ system.spellWordsCost.spellCompleteTotalCost }} ({{system.spellWordsCost.spellCompleteTotalMarkers}} / {{system.spellWordsCost.spellCompleteTotalMana}})</td>
+    </tr>
+  </tbody>
+</table>
 <h3>Spell Engeries: Actions</h3>
 <section>
   <table>
     <tr>
+      <th>Selected Component</th>
       <th>Spell Energy</th>
       <th>Abilities</th>
       <th>Training</th>
@@ -12,8 +31,14 @@
     </tr>
     {{#each system.spellActions as |spell key|}}
     <tr>
+      <td class="align-center">
+        <input type="radio" id="system.spellActions.{{key}}.selected" name="spellActionsSelected" class="radio-selected-action" data-label="{{key}}" {{#if (eq key ../system.spellWordsCost.spellActionWord)}}checked{{/if}}>
+      </td>
       <td class="align-left">
-        <label for="system.spellActions.{{key}}" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.spellActions key)}}">{{localize (lookup @root.config.spellActions key)}}</label>
+        <div onclick="execute('icon-row-{{key}}','table-row-{{key}}')">
+          <label for="system.spellActions.{{key}}" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.spellActions key)}}">{{localize (lookup @root.config.spellActions key)}}</label>
+          <i id="icon-row-{{key}}" class="fa fa-caret-right"></i>
+        </div>
       </td>
       <td class="align-center">
         <label>[</label>
@@ -80,6 +105,79 @@
         <input type="checkbox" id="system.spellActions.{{key}}.tick" name="{{key}}" class="checkbox-selected resource-label flexsmall align-center" data-label="tickmark" {{#if spell.tickMark}}checked{{/if}}>
       </td>
     </tr>
+    <tr id="table-row-{{key}}" style="display: none;">
+      <td></td>
+      <td colspan="7">
+        {{#if (eq key "armor")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-armor.hbs"
+            spell=spell
+            key=key
+            costArmorRating=../system.spellWordsCost.spellActionArmor.costArmorRating
+            costArmorType=../system.spellWordsCost.spellActionArmor.costArmorType
+            costArmorDuration=../system.spellWordsCost.spellActionArmor.costArmorDuration
+          }}
+        {{else if (eq key "banish")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-banish.hbs"
+            spell=spell
+            key=key
+            costBanishResistance=../system.spellWordsCost.spellActionBanish.costBanishResistance
+            costBanishSize=../system.spellWordsCost.spellActionBanish.costBanishSize
+          }}
+        {{else if (eq key "control")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-control.hbs"
+            spell=spell
+            key=key
+            costControlResistance=../system.spellWordsCost.spellActionControl.costControlResistance
+            costControlDuration=../system.spellWordsCost.spellActionControl.costControlDuration
+          }}
+        {{else if (eq key "create")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-create.hbs"
+            spell=spell
+            key=key
+            costCreateSize=../system.spellWordsCost.spellActionCreate.costCreateSize
+            costCreateNumber=../system.spellWordsCost.spellActionCreate.costCreateNumber
+            costCreateDuration=../system.spellWordsCost.spellActionCreate.costCreateDuration
+          }}
+        {{else if (eq key "destroy")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-destroy.hbs"
+            spell=spell
+            key=key
+            costDestroyNumber=../system.spellWordsCost.spellActionDestroy.costDestroyNumber
+            costDestroyType=../system.spellWordsCost.spellActionDestroy.costDestroyType
+            costDamageResistance=../system.spellWordsCost.spellActionDestroy.costDamageResistance
+          }}
+        {{else if (eq key "repair")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-repair.hbs"
+            spell=spell
+            key=key
+            costRepairNumber=../system.spellWordsCost.spellActionRepair.costRepairNumber
+          }}
+        {{else if (eq key "shield")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-shield.hbs"
+            spell=spell
+            key=key
+            costShieldResistance=../system.spellWordsCost.spellActionShield.costShieldResistance
+            costShieldDuration=../system.spellWordsCost.spellActionShield.costShieldDuration
+          }}
+        {{else if (eq key "summon")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-summon.hbs"
+            spell=spell
+            key=key
+            costSummonSize=../system.spellWordsCost.spellActionSummon.costSummonSize
+            costSummonNumber=../system.spellWordsCost.spellActionSummon.costSummonNumber
+            costSummonDuration=../system.spellWordsCost.spellActionSummon.costSummonDuration
+            costSummonDisappears=../system.spellWordsCost.spellActionSummon.costSummonDisappears
+          }}
+        {{else if (eq key "transform")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-transform.hbs"
+            spell=spell
+            key=key
+            costTransformSize=../system.spellWordsCost.spellActionTransform.costTransformSize
+            costTransformDuration=../system.spellWordsCost.spellActionTransform.costTransformDuration
+          }}
+        {{/if}}
+      </td>
+    </tr>
     {{/each}}
   </table>
 </section>
@@ -88,6 +186,7 @@
 <section>
   <table>
     <tr>
+      <th>Selected Component</th>
       <th>Spell Energy</th>
       <th>Abilities</th>
       <th>Training</th>
@@ -98,8 +197,14 @@
     </tr>
     {{#each system.spellPowers as |spell key|}}
     <tr>
+      <td class="align-center">
+        <input type="radio" id="system.spellPowers.{{key}}.selected" name="spellPowerSelected" class="radio-selected-power" data-label="{{key}}" {{#if (eq key ../system.spellWordsCost.spellPowerWord)}}checked{{/if}}>
+      </td>
       <td class="align-left">
-        <label for="system.spellPowers.{{key}}" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.spellPowers key)}}">{{localize (lookup @root.config.spellPowers key)}}</label>
+        <div onclick="execute('icon-row-{{key}}','table-row-{{key}}')">
+          <label for="system.spellPowers.{{key}}" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.spellPowers key)}}">{{localize (lookup @root.config.spellPowers key)}}</label>
+          <i id="icon-row-{{key}}" class="fa fa-caret-right"></i>
+        </div>
       </td>
       <td class="align-center">
         <label>[</label>
@@ -166,6 +271,130 @@
         <input type="checkbox" id="system.spellPowers.{{key}}.tick" name="{{key}}" class="checkbox-selected resource-label flexsmall align-center" data-label="tickmark" {{#if spell.tickMark}}checked{{/if}}>
       </td>
     </tr>
+    <tr id="table-row-{{key}}" style="display: none;">
+      <td></td>
+      <td colspan="7">
+        {{#if (eq key "air")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-air.hbs"
+            spell=spell
+            key=key
+            costAirDamageDie=../system.spellWordsCost.spellPowerAir.costAirDamageDie
+          }}
+        {{else if (eq key "animal")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-animal.hbs"
+            spell=spell
+            key=key
+            costAnimalShape=../system.spellWordsCost.spellPowerAnimal.costAnimalShape
+            costAnimalDamageDie=../system.spellWordsCost.spellPowerAnimal.costAnimalDamageDie
+          }}
+        {{else if (eq key "dark")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-dark.hbs"
+            spell=spell
+            key=key
+            costDarkFieldRange=../system.spellWordsCost.spellPowerDark.costDarkFieldRange
+            costDarkDamageDie=../system.spellWordsCost.spellPowerDark.costDarkDamageDie
+          }}
+        {{else if (eq key "earth")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-earth.hbs"
+            spell=spell
+            key=key
+            costEarthDamageDie=../system.spellWordsCost.spellPowerEarth.costEarthDamageDie
+          }}
+        {{else if (eq key "fire")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-fire.hbs"
+            spell=spell
+            key=key
+            costFireDamageDie=../system.spellWordsCost.spellPowerFire.costFireDamageDie
+          }}
+        {{else if (eq key "force")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-force.hbs"
+            spell=spell
+            key=key
+            costForceDamageDie=../system.spellWordsCost.spellPowerForce.costForceDamageDie
+          }}
+        {{else if (eq key "light")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-light.hbs"
+            spell=spell
+            key=key
+            costLightFieldRange=../system.spellWordsCost.spellPowerLight.costLightFieldRange
+            costLightDamageDie=../system.spellWordsCost.spellPowerLight.costLightDamageDie
+          }}
+        {{else if (eq key "plant")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-plant.hbs"
+            spell=spell
+            key=key
+            costPlantShape=../system.spellWordsCost.spellPowerPlant.costPlantShape
+            costPlantDamageDie=../system.spellWordsCost.spellPowerPlant.costPlantDamageDie
+          }}
+        {{else if (eq key "water")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-water.hbs"
+            spell=spell
+            key=key
+            costWaterDamageDie=../system.spellWordsCost.spellPowerWater.costWaterDamageDie
+          }}
+        {{else if (eq key "ash")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-ash.hbs"
+            spell=spell
+            key=key
+            costAshDamageDie=../system.spellWordsCost.spellPowerAsh.costAshDamageDie
+            costAshCover=../system.spellWordsCost.spellPowerAsh.costAshCover
+          }}
+        {{else if (eq key "fissure")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-fissure.hbs"
+            spell=spell
+            key=key
+            costFissureDamageDie=../system.spellWordsCost.spellPowerFissure.costFissureDamageDie
+            costFissureWeaken=../system.spellWordsCost.spellPowerFissure.costFissureWeaken
+          }}
+        {{else if (eq key "lava")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-lava.hbs"
+            spell=spell
+            key=key
+            costLavaDamageDie=../system.spellWordsCost.spellPowerLava.costLavaDamageDie
+            costLavaWeaken=../system.spellWordsCost.spellPowerLava.costLavaWeaken
+          }}
+        {{else if (eq key "mist")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-mist.hbs"
+            spell=spell
+            key=key
+            costMistDamageDie=../system.spellWordsCost.spellPowerMist.costMistDamageDie
+            costMistCover=../system.spellWordsCost.spellPowerMist.costMistCover
+          }}
+        {{else if (eq key "mud")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-mud.hbs"
+            spell=spell
+            key=key
+            costMudReducedSpeed=../system.spellWordsCost.spellPowerMud.costMudReducedSpeed
+            costMudDamageDie=../system.spellWordsCost.spellPowerMud.costMudDamageDie
+          }}
+        {{else if (eq key "steam")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-steam.hbs"
+            spell=spell
+            key=key
+            costSteamDamageDie=../system.spellWordsCost.spellPowerSteam.costSteamDamageDie
+            costSteamCover=../system.spellWordsCost.spellPowerSteam.costSteamCover
+          }}
+        {{else if (eq key "angelic")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-angelic.hbs"
+            spell=spell
+            key=key
+            costAngelicDamageDie=../system.spellWordsCost.spellPowerAngelic.costAngelicDamageDie
+          }}
+        {{else if (eq key "demonic")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-demonic.hbs"
+            spell=spell
+            key=key
+            costDemonicDamageDie=../system.spellWordsCost.spellPowerDemonic.costDemonicDamageDie
+          }}
+        {{else if (eq key "spirit")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-spirit.hbs"
+            spell=spell
+            key=key
+            costSpiritDamageDie=../system.spellWordsCost.spellPowerSpirit.costSpiritDamageDie
+          }}
+        {{/if}}
+      </td>
+    </tr>
     {{/each}}
   </table>
 </section>
@@ -174,6 +403,7 @@
 <section>
   <table>
     <tr>
+      <th>Selected Component</th>
       <th>Spell Energy</th>
       <th>Abilities</th>
       <th>Training</th>
@@ -184,8 +414,14 @@
     </tr>
     {{#each system.spellTargets as |spell key|}}
     <tr>
+      <td class="align-center">
+        <input type="radio" id="system.spellTargets.{{key}}.selected" name="spellTargetsSelected" class="radio-selected-target" data-label="{{key}}" {{#if (eq key ../system.spellWordsCost.spellTargetWord)}}checked{{/if}}>
+      </td>
       <td class="align-left">
-        <label for="system.spellTargets.{{key}}" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.spellTargets key)}}">{{localize (lookup @root.config.spellTargets key)}}</label>
+        <div onclick="execute('icon-row-{{key}}','table-row-{{key}}')">
+          <label for="system.spellTargets.{{key}}" class="resource-label flexlarge align-left" data-label="{{localize (lookup @root.config.spellTargets key)}}">{{localize (lookup @root.config.spellTargets key)}}</label>
+          <i id="icon-row-{{key}}" class="fa fa-caret-right"></i>
+        </div>        
       </td>
       <td class="align-center">
         <label>[</label>
@@ -252,6 +488,58 @@
         <input type="checkbox" id="system.spellTargets.{{key}}.tick" name="{{key}}" class="checkbox-selected resource-label flexsmall align-center" data-label="tickmark" {{#if spell.tickMark}}checked{{/if}}>
       </td>
     </tr>
+    <tr id="table-row-{{key}}" style="display: none;">
+      <td></td>
+      <td colspan="7">
+        {{#if (eq key "it")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-it.hbs"
+            spell=spell
+            key=key
+            costItTarget=../system.spellWordsCost.spellTargetIt.costItTarget
+          }}
+        {{else if (eq key "me")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-me.hbs"
+            spell=spell
+            key=key
+            costMeTarget=../system.spellWordsCost.spellTargetMe.costMeTarget
+          }}
+        {{else if (eq key "them")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-them.hbs"
+            spell=spell
+            key=key
+            costThemTarget=../system.spellWordsCost.spellTargetThem.costThemTarget
+          }}
+        {{else if (eq key "there")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-there.hbs"
+            spell=spell
+            key=key
+            costThereTarget=../system.spellWordsCost.spellTargetThere.costThereTarget
+          }}
+        {{else if (eq key "you")}}
+          {{> "systems/sentius-rpg/templates/actor/parts/spellenergies/actor-spellenergy-you.hbs"
+            spell=spell
+            key=key
+            costYouTarget=../system.spellWordsCost.spellTargetYou.costYouTarget
+          }}
+        {{/if}}
+      </td>
+    </tr>
     {{/each}}
   </table>
 </section>
+
+<script>
+  function execute(iconRowID, tableRowId) {
+    console.log("HERE EXECUTE", iconRowID, tableRowId);
+    rotateIcon(iconRowID);
+    toggleRow(tableRowId);
+  }
+  function rotateIcon(iconRowID) {
+    const icon = document.getElementById(iconRowID);
+    icon.style.transform = icon.style.transform === 'rotate(90deg)' ? 'rotate(0deg)' : 'rotate(90deg)';
+  }
+  function toggleRow(rowId) {
+    const row = document.getElementById(rowId);
+    row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+  } 
+</script>
